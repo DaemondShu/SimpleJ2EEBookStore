@@ -156,42 +156,10 @@ public class PELoginModule implements LoginModule
             //Hello hello = (Hello) context.lookup("HelloEJB/local");
 
 
-            return username;
-
-/*
-
-        if (username.equals("admin") && username.equals("admin"))
-            return "adminG";
-        else return "userG";
-
-*/
+            if (username.equals("admin")) return username;
+            else return "user";
 
 
-        /*
-        try
-        {
-            //TODO
-
-            Properties props = new Properties();
-            props.setProperty(Context.INITIAL_CONTEXT_FACTORY,
-                    "org.jboss.security.jndi.JndiLoginInitialContextFactory");
-            props.setProperty(Context.PROVIDER_URL, "localhost:1099");
-            props.setProperty(Context.SECURITY_PRINCIPAL, GUEST);
-            props.setProperty(Context.SECURITY_CREDENTIALS, GUEST);
-            InitialContext ic = new InitialContext(props);
-            // login EJB local 服务
-            LoginService loginService = (LoginService)
-                    (ic).lookup("LoginServiceImpl/local");
-
-
-            String role = loginService.login(uname, password);
-            return role;
-        } catch (NamingException e)
-        {
-            System.out.println(e.getMessage());
-            return null;
-        }*/
-            //return null;
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -208,7 +176,7 @@ public class PELoginModule implements LoginModule
             return false;
         }
         // 认证了 subject 的身份了。
-        subject.getPrincipals().add(userPrincipal);
+        //        subject.getPrincipals().add(userPrincipal);
 
         subject.getPrincipals().add(roleGroup);
         System.out.println(subject.getPrincipals());

@@ -1,8 +1,7 @@
 package test;
 
-import data.EntityManagerAdv;
-
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -17,7 +16,7 @@ public class HelloBean implements Hello
 
 
     @PersistenceContext(unitName = "JPADB")
-    private EntityManagerAdv entityManager;
+    private EntityManager entityManager;
 
     //private DataManager dataManager = new DataManager(entityManager);
 

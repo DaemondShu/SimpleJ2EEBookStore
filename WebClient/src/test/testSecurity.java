@@ -54,6 +54,9 @@ public class testSecurity extends HttpServlet
             request.getSession(true);
             request.login(user, pwd);
 
+            SecurityManager securityManager = System.getSecurityManager();
+
+
             System.out.println(request.getUserPrincipal());
 
             //request.login(user,pwd);

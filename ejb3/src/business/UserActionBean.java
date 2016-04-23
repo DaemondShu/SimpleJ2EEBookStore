@@ -25,7 +25,6 @@ public class UserActionBean implements UserAction
     @Override
     public String login(String username, String password)
     {
-        String result = "";
         try
         {
             DataManager dataManager = new DataManager(entityManager);

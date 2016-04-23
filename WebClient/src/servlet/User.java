@@ -15,11 +15,19 @@ public class User extends HttpServlet
 {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+        try
+        {
+            request.login();
 
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-
+        doPost(request,response);
     }
 }

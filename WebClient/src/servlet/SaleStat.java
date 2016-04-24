@@ -8,11 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by monkey_d_asce on 16-3-31.
- *
+ * Created by monkey_d_asce on 16-4-24.
  */
-@WebServlet("/Shop")
-public class Shop extends HttpServlet
+@WebServlet(name = "SaleStat")
+public class SaleStat extends HttpServlet
 {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
@@ -21,6 +20,6 @@ public class Shop extends HttpServlet
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        doPost(request, response);
+
     }
 }

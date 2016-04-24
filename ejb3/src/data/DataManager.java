@@ -25,8 +25,8 @@ public class DataManager
     {
         try
         {
-            //mongoDB
-            Query query = entityManager.createQuery("INSERT into user(name,password) VALUES('" + name + "','" + pwd + "')");
+            //TODO Persist
+            Query query = entityManager.createNativeQuery("INSERT into user(name,password) VALUES('" + name + "','" + pwd + "')");
             query.executeUpdate();
 
             return true;
@@ -84,7 +84,7 @@ public class DataManager
         } catch (Exception e)
         {
             e.printStackTrace();
-            return null;
+            return "";
         }
     }
 

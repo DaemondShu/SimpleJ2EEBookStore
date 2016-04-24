@@ -10,6 +10,7 @@ import java.io.IOException;
 
 /**
  * Created by monkey_d_asce on 16-3-28.
+ * 用于测试登陆安全的类
  */
 @WebServlet("/testSecurity")
 public class testSecurity extends HttpServlet
@@ -54,7 +55,7 @@ public class testSecurity extends HttpServlet
             request.getSession(true);
             request.login(user, pwd);
 
-            SecurityManager securityManager = System.getSecurityManager();
+            //SecurityManager securityManager = System.getSecurityManager();
 
 
             System.out.println(request.getUserPrincipal());

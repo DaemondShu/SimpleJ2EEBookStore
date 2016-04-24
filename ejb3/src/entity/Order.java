@@ -18,6 +18,7 @@ public class Order
     private String address;
     private Date time;
 
+
     @Id
     @Column(name = "orderId", nullable = false)
     public int getOrderId()

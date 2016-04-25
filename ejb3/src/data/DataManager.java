@@ -217,18 +217,17 @@ public class DataManager
         }
     }
 
-    public List<Object[]> book_queryall(String type)
+    public List<Book> book_queryall(String type)
     {
 
         //Statement stmt;
         try
         {
-            String sql = type != null ? "SELECT b FROM book b WHERE b.type='" + type + "' order by b.bookId" : "SELECT b FROM book b order by BOOK_ID";
+            String sql = type != null ? "SELECT b FROM book b WHERE b.type='" + type + "' order by b.bookId" : "SELECT b FROM book b order by bookId";
 
 
             Query query = entityManager.createQuery(sql);
-
-            List<Object[]> result = query.getResultList();
+            List<Book> result = query.getResultList();
             return result;
         } catch (Exception e)
         {

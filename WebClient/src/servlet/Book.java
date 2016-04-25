@@ -1,5 +1,8 @@
 package servlet;
 
+import business.BookAction;
+
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +17,10 @@ import java.io.PrintWriter;
 @WebServlet("/Book")
 public class Book extends HttpServlet
 {
+    private static final String ACTION = "action";
 
+    @EJB(name = "BookAction")
+    private BookAction bookAction;
 
     private HttpServletRequest request;
 
@@ -33,6 +39,26 @@ public class Book extends HttpServlet
         //response.setContentType("application/json; charset=utf-8");
         response.setContentType("text/plain");
         PrintWriter writer = response.getWriter();
+
+        try
+        {
+            switch (val(ACTION))
+            {
+                case "table":
+                    writer.print(bookAction.table());
+                    break;
+                //TODO
+                default:
+                    throw new Exception("invalid action");
+            }
+        } catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            response.sendError(222, e.getMessage());
+        }
+        writer.flush();
+        writer.close();
 
     }
 

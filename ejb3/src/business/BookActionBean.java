@@ -1,6 +1,9 @@
 package business;
 
 import data.DataManager;
+import entity.Book;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -28,7 +31,18 @@ public class BookActionBean implements BookAction
         {
             DataManager dataManager = new DataManager(entityManager);
 
-            List<Object[]> rs = dataManager.book_queryall(null);
+            List<Book> rs = dataManager.book_queryall(null);
+
+            result = JSONArray.fromObject(rs).toString();
+
+            /*
+            for (Book obj : rs)
+            {
+                System.out.println(JSONObject.fromObject(obj));
+            }*/
+
+
+            /*
             if (rs != null)
             {
 
@@ -40,10 +54,12 @@ public class BookActionBean implements BookAction
                     result += "<td><a onclick=\"delbook(" + obj[0].toString() + ")\" href=\"#\"> <span class=\"glyphicon glyphicon-remove\"> </span> </a></td>";
                     result += "</tr>";
                 }
-            }
+            }*/
+
         } catch (Exception e)
         {
             e.printStackTrace();
+            result = "[]";
         }
         return result;
     }

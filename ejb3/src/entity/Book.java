@@ -1,9 +1,13 @@
 package entity;
 
+
+import net.sf.json.JSONObject;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
 
 /**
  * Created by monkey_d_asce on 16-3-26.
@@ -102,5 +106,13 @@ public class Book
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
         return result;
+    }
+
+
+    public String jsonStr()
+    {
+        JSONObject json = JSONObject.fromObject(this);
+        System.out.println("json:" + json.toString());
+        return json.toString();
     }
 }

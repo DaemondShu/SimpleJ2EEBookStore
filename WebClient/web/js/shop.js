@@ -25,7 +25,19 @@ function flitertypes(str)
 
 function initBookTable()
 {
-    
+    var bookTable = $("#booktable");
+    var singleBookHtml = bookTable.html();
+
+    var data = {action: "table"};
+
+
+    ajax("Book", "get", data,
+        function (jsonStr)
+        {
+            var bookArray = JSON.parse(jsonStr);
+
+
+        });
 }
 
 

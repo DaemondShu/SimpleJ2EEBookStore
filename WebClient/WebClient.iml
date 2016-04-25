@@ -48,5 +48,6 @@
     <orderEntry type="library" scope="PROVIDED" name="JBoss 7.5.0.Final-redhat-21" level="application_server_libraries" />
     <orderEntry type="library" name="ejb-3.1" level="application" />
     <orderEntry type="module" module-name="ejb3" />
+    <orderEntry type="library" name="json-lib-2" level="project" />
   </component>
 </module>

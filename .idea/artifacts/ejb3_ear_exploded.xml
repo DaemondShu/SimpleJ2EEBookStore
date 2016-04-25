@@ -6,6 +6,9 @@
       <element id="directory" name="ejb.jar">
         <element id="artifact" artifact-name="ejb3:ejb exploded" />
       </element>
+      <element id="directory" name="lib">
+        <element id="library" level="project" name="json-lib-2" />
+      </element>
     </root>
   </artifact>
 </component>

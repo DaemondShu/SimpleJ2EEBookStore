@@ -172,6 +172,8 @@
 
 
 <script>
+    initBookTable();
+
 
     $("#ordertable").hide();
     $("#bookt").fadeIn("slow");

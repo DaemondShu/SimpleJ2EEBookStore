@@ -85,11 +85,12 @@
     <div class="row">
         <div class="col-md-2 sidebar"
              style="background-color: #F8F8F8; margin-bottom: 4; height: 1024px; ">
-            <ul class="nav nav-sidebar" style="margin-left: 10px">
-                <li><h4>CATAGORIES</h4></li>
-                <li><a href="#" onclick="flitertypes('temptype')">type1 <span
+            <ul class="nav nav-sidebar" style="margin-left: 10px" id="typeBar">
+                <%--<li><h4>CATAGORIES</h4></li>--%>
+
+                <li><a href="#" onclick="filterTypes()">type1 <span
                         class="glyphicon glyphicon-chevron-right"> </span> </a></li>
-                <%--<%=typelist %>--%>
+
             </ul>
         </div>
 
@@ -106,12 +107,13 @@
                 </thead>
                 <tbody id="booktable">
 
-                <tr id=booktable1">
-                    <td>1</td>
-                    <td>hhh</td>
-                    <td>yyy</td>
-                    <td>kkk</td>
-                    <td><a onclick="addtocart(1)" href=\"#\"> <span class="glyphicon glyphicon-shopping-cart"> </span>
+                <tr id="book">
+                    <td class="bookId">000</td>
+                    <td class="bookName">载入中</td>
+                    <td class="bookType">type</td>
+                    <td class="bookPrice">100</td>
+                    <td><a class="bookButton" onclick="addToCart()" href="#"> <span
+                            class="glyphicon glyphicon-shopping-cart"> </span>
                     </a>
                     <td>
                 </tr>

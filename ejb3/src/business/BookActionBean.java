@@ -4,10 +4,12 @@ import data.DataManager;
 import entity.Book;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.io.Console;
 import java.util.List;
 
 /**
@@ -33,34 +35,18 @@ public class BookActionBean implements BookAction
 
             List<Book> rs = dataManager.book_queryall(null);
 
-            result = JSONArray.fromObject(rs).toString();
+            JsonConfig exclude = new JsonConfig();
+            //exclude.setExcludes(new String[] {"price"});
+            result = JSONArray.fromObject(rs, exclude).toString();
 
-            /*
-            for (Book obj : rs)
-            {
-                System.out.println(JSONObject.fromObject(obj));
-            }*/
-
-
-            /*
-            if (rs != null)
-            {
-
-                for (Object[] obj : rs)
-                {
-                    result += "<tr>";
-                    for (int i = 0; i < 4; i++)
-                        result += "<td>" + obj[i].toString() + "</td>";
-                    result += "<td><a onclick=\"delbook(" + obj[0].toString() + ")\" href=\"#\"> <span class=\"glyphicon glyphicon-remove\"> </span> </a></td>";
-                    result += "</tr>";
-                }
-            }*/
 
         } catch (Exception e)
         {
             e.printStackTrace();
             result = "[]";
         }
+
+
         return result;
     }
 

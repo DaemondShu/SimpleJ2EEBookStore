@@ -301,10 +301,10 @@
     // 			booktable+="<td>" + rs.getString("name") + "</td>";
     // 			booktable+="<td>" + temptype + "</td>";
     // 			booktable+="<td>$" + rs.getFloat("price") + "</td>";
-    // 			booktable+="<td><a onclick=\"addtocart("+book_id+")\" href=\"#\"> <span class=\"glyphicon glyphicon-shopping-cart\"> </span> </a><td>";
+    // 			booktable+="<td><a onclick=\"addToCart("+book_id+")\" href=\"#\"> <span class=\"glyphicon glyphicon-shopping-cart\"> </span> </a><td>";
     // 			booktable+="</tr>";
     // 			if (typelist.indexOf(temptype)==-1)
-    // 				typelist+="<li><a href=\"#\" onclick=\"flitertypes('"+temptype+"')\">"+temptype+"<span class=\"glyphicon glyphicon-chevron-right\"> </span> </a></li>";
+    // 				typelist+="<li><a href=\"#\" onclick=\"fliterTypes('"+temptype+"')\">"+temptype+"<span class=\"glyphicon glyphicon-chevron-right\"> </span> </a></li>";
     // 			i++;
     // 	    }
     // 	}

@@ -4,38 +4,92 @@
 
 
 
-function flitertypes(str)
+function filterTypes(str)
 {
     $("#ordertable").hide();
     $("#bookt").fadeIn("slow");
+
     booktable = document.getElementById("booktable");
+
+
+    // if (str == "CATAGORIES")
+    //     for (var i = 0; i < booktable.rows.length; i++)
+    //     {
+    //         book_id = booktable.rows[i].cells[0].innerHTML;
+    //         $("#book" + book_id).fadeIn("slow");
+    //     }
+    //
+    // else
+
     for (var i = 0; i < booktable.rows.length; i++)
     {
         book_id = booktable.rows[i].cells[0].innerHTML;
         if (booktable.rows[i].cells[2].innerHTML != str)
         {
-            $("#booktable" + book_id).hide();
+            $("#book" + book_id).hide();
         }
         else
         {
-            $("#booktable" + book_id).fadeIn("slow");
+            $("#book" + book_id).fadeIn("slow");
         }
     }
+}
+
+
+function initTypeList(typeList)
+{
+    var typeBar = $("#typeBar");
+    var singleTypeHtml = typeBar.html();
+    typeBar.html("<li><h4>CATAGORIES</h4></li>");
+    var len = typeList.length;
+    for (var i = 0; i < len; i++)
+    {
+        typeBar.append(singleTypeHtml);
+        var item = typeBar.find("a").eq(i);
+        var type = typeList[i];
+        item.attr("onclick", "filterTypes('" + type + "')");
+        item.html(type + "<span class='glyphicon glyphicon-chevron-right'> </span>");
+
+    }
+
+
 }
 
 function initBookTable()
 {
     var bookTable = $("#booktable");
     var singleBookHtml = bookTable.html();
+    bookTable.html("");
+
 
     var data = {action: "table"};
-
-
     ajax("Book", "get", data,
         function (jsonStr)
         {
+            //alert(jsonStr);
             var bookArray = JSON.parse(jsonStr);
+            var len = bookArray.length;
+            for (var i = 0; i < len; i++)
+                bookTable.append(singleBookHtml);
+            //bookTable = $("#booktable");
+            var typeList = [];
 
+            for (var i = 0; i < len; i++)
+            {
+                var item = bookTable.find("tr").eq(i);
+                var book = bookArray[i];
+                item.attr("id", "book" + book.bookId);
+                item.find(".bookId").html(book.bookId);
+                item.find(".bookType").html(book.type);
+                item.find(".bookName").html(book.name);
+                item.find(".bookPrice").html(book.price);
+                item.find(".bookButton").attr("onclick", "addToCart(" + book.bookId + ")");
+
+                if (!isExist(typeList, book.type))
+                    typeList.push(book.type);
+            }
+
+            initTypeList(typeList);
 
         });
 }
@@ -54,11 +108,11 @@ function search()
         book_id = booktable.rows[i].cells[0].innerHTML;
         if (str.indexOf(searchcontent) < 0)
         {
-            $("#booktable" + book_id).hide();
+            $("#book" + book_id).hide();
         }
         else
         {
-            $("#booktable" + book_id).fadeIn("slow");
+            $("#book" + book_id).fadeIn("slow");
         }
     }
 }
@@ -90,7 +144,7 @@ function setsession(newdata)
         });
 }
 
-function addtocart(bookid)
+function addToCart(bookid)
 {
     addtosession(bookid);
 }

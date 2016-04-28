@@ -1,8 +1,14 @@
 package business;
 
+import data.DataManager;
+import entity.Order;
+import net.sf.json.JSONObject;
+
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.xml.transform.Result;
+import java.util.List;
 
 /**
  * Created by monkey_d_asce on 16-3-31.
@@ -24,41 +30,57 @@ public class ShopActionBean implements ShopAction
      */
 
     @Override
-    public boolean buy(String userCart, int userId)
+    public boolean buy(String cartData, int userId)
     {
-        /*
+
         try
         {
             DataManager dataManager = new DataManager(entityManager);
 
 
-            String username = userCart.substring(0, userCart.lastIndexOf("cart"));
+            String[] books = cartData.split(";");
 
-            int userid = dataManager.user_queryid(username);
-            String booksess = tmp.toString();
-            String[] books = booksess.split(";");
             for (int i = 0; i < books.length; i++)
                 if (!books[i].equals(""))
                 {
-                    DataManager.order_insert(userid,
-                            Integer.parseInt(books[i]), "address");
+                    int bookId = Integer.parseInt(books[i]);
+                    dataManager.order_insert(userId, bookId, "address");
                 }
-            session.put(usercart, "");
 
+            //TODO ALL OR NOTHING
+
+            return true;
         } catch (Exception e)
         {
             e.printStackTrace();
+            return false;
         }
-        out.print("");
-        out.close();
-        */
-        return false;
 
     }
 
     @Override
     public String getOrder(String username)
     {
+        String result = "";
+        try
+        {
+            DataManager dataManager = new DataManager(entityManager);
+
+            int user_id = dataManager.user_queryid(username);
+
+            System.out.println(user_id);
+            List<Order> rs = dataManager.order_query(user_id);
+
+            System.out.println(JSONObject.fromObject(rs));
+
+            return result;
+
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+
         /*
                 try
 		{
@@ -88,7 +110,6 @@ public class ShopActionBean implements ShopAction
 		out.print("");
 		out.close();
          */
-        return null;
     }
 
     @Override

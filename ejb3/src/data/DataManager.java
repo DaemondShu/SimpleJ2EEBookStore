@@ -1,6 +1,7 @@
 package data;
 
 import entity.Book;
+import entity.Order;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -324,7 +325,7 @@ public class DataManager
 		}
 	}*/
 
-    public List<Object[]> order_query(int user_id)
+    public List<Order> order_query(int user_id)
     {
         try
         {
@@ -333,7 +334,7 @@ public class DataManager
 
             Query query = entityManager.createNativeQuery(sql);
 
-            List<Object[]> result = query.getResultList();
+            List<Order> result = query.getResultList();
             return result;
         } catch (Exception e)
         {

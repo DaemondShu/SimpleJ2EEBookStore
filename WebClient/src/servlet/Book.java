@@ -1,6 +1,7 @@
 package servlet;
 
 import business.BookAction;
+import exception.StoreException;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -17,7 +18,13 @@ import java.io.PrintWriter;
 @WebServlet("/Book")
 public class Book extends HttpServlet
 {
+    // key names
     private static final String ACTION = "action";
+    private static final String BOOKID = "bookId";
+    private static final String NAME = "name";
+    private static final String TYPE = "type";
+    private static final String PRICE = "price";
+
 
     @EJB(name = "BookAction")
     private BookAction bookAction;
@@ -35,8 +42,6 @@ public class Book extends HttpServlet
         this.request = request;
         request.getSession(true);
         response.setCharacterEncoding("UTF-8");
-
-        //response.setContentType("application/json; charset=utf-8");
         response.setContentType("text/plain");
         PrintWriter writer = response.getWriter();
 
@@ -48,9 +53,22 @@ public class Book extends HttpServlet
                     writer.print(bookAction.table());
                     break;
                 //TODO
+                case "del":
+                    int bookId = Integer.parseInt(val(BOOKID));
+                    if (!bookAction.del(bookId))
+                        throw new StoreException("delete book failed");
+                    break;
+                case "add":
+                    if (!bookAction.add(val(NAME), val(TYPE), val(PRICE)))
+                        throw new StoreException("insert book failed");
+                    break;
                 default:
-                    throw new Exception("invalid action");
+                    throw new StoreException("invalid action");
             }
+        } catch (StoreException e)
+        {
+            System.out.println(e.getMessage());
+            response.sendError(222, e.getMessage());
         } catch (Exception e)
         {
             System.out.println(e.getMessage());
@@ -62,8 +80,10 @@ public class Book extends HttpServlet
 
     }
 
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         doPost(request, response);
     }
+
 }

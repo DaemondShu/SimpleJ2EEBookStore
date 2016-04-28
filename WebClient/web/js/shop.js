@@ -117,9 +117,22 @@ function search()
     }
 }
 
-function addtosession(bookid)
+
+//----------------------------Shop-----------------------
+
+function addToSession(bookId)
 {
     var username = $("#username").text();
+
+    ajax("Shop", "post",
+        {
+            action: "cartInsert",
+            userCart: username + "cart",
+            bookId: bookId
+        },
+        emptyCallBack, emptyCallBack);
+
+    /*
     $.post("ShoppingAdd",
         {
             usercart: username + "cart",
@@ -129,15 +142,18 @@ function addtosession(bookid)
         function (data, status)
         {
         });
+     */
+
 }
 
-function setsession(newdata)
+function setSession(newdata)
 {
     var username = $("#username").text();
-    $.post("ShoppingSet",
+    $.post("Shop",
         {
-            usercart: username + "cart",
-            data: newdata
+            action: "cartSet",
+            userCart: username + "cart",
+            cartData: newdata
         },
         function (data, status)
         {
@@ -146,7 +162,7 @@ function setsession(newdata)
 
 function addToCart(bookid)
 {
-    addtosession(bookid);
+    addToSession(bookid);
 }
 
 function printcart()
@@ -200,7 +216,7 @@ function printcart()
 
 function clearr()
 {
-    setsession("");
+    setSession("");
 }
 
 function buy()

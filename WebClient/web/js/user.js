@@ -42,13 +42,16 @@ function userLogin()
             {
                 case "admin":
                     self.location = "manage.jsp";
+                    setCookie("user", {name: formData.username, principal: principal}, "d1", "/");
                     break;
                 case "user":
                     self.location = "shop.jsp";
+                    setCookie("user", {name: formData.username, principal: principal}, "d1", "/");
                     break;
                 default:
                     msg("invalid username or password");
             }
+
 
         }, function ()
         {
@@ -60,9 +63,12 @@ function userLogin()
 
 function SignUp()
 {
+
     var form = $("#SignUpForm");
     var data = form.serializeObject();
     data.action = "register";
     ajax("User", "post", data, emptyCallBack);
 
 }
+
+

@@ -52,9 +52,6 @@ public class User extends HttpServlet
         response.setContentType("text/plain");
         PrintWriter writer = response.getWriter();
 
-
-
-
         try
         {
             //System.out.println(request.getParameterMap());

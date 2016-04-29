@@ -18,9 +18,6 @@
 <body>
 
 
-<a id="username" style="display: none">
-    <%--<%=user%>--%>
-</a>
 
 <nav class="navbar navbar-default" role="navigation"
      style="margin-bottom: 1px">
@@ -41,9 +38,9 @@
 
 
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown"><a href="login.jsp"
+                <li class="dropdown"><a href="index.jsp"
                                         class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                        onclick="printcart()" aria-expanded="false"><span
+                                        onclick="printCart()" aria-expanded="false"><span
                         class="glyphicon glyphicon-shopping-cart"></span>Shopping Cart <span
                         class="caret"></span></a>
                     <ul class="dropdown-menu " role="menu">
@@ -68,10 +65,12 @@
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        <span class="glyphicon glyphicon-user"></span> user <span class="caret"></span></a>
+                        <span class="glyphicon glyphicon-user"></span>
+                        <nobr id="username">user</nobr>
+                        <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" onclick="showorder()"> my order</a>
-                        <li><a href="login.jsp">Log out</a></li>
+                        <li><a href="#" onclick="showOrder()"> my order</a>
+                        <li><a href="index.jsp">Log out</a></li>
                         <li><a href="#" data-toggle="modal" data-target="#myModal"
                                style="margin: 0 auto;">Modify Password</a></li>
                     </ul>
@@ -123,7 +122,7 @@
         </div>
 
 
-        <div id="ordertable">
+        <div id="orderTable">
             <table class="table table-hover" style="width: 40%">
                 <thead>
                 <tr>
@@ -134,7 +133,18 @@
                     <th>Cancel</th>
                 </tr>
                 </thead>
-                <tbody id="ordertablebody">
+                <tbody id="orderTableBody">
+                <tr>
+                    <td class="id"> id</td>
+                    <td class="name"> 名</td>
+                    <td class="price"></td>
+                    <td class="date"></td>
+                    <td>
+                        <a class="cancel" onclick="delOrder()" href="javascript:void(0);">
+                            <span class="glyphicon glyphicon-remove"> </span>
+                        </a>
+                    </td>
+                </tr>
 
                 </tbody>
             </table>
@@ -174,11 +184,18 @@
 
 
 <script>
+    $(document).ready(function ()
+    {
+        checkUser();
     initBookTable();
 
-
-    $("#ordertable").hide();
+        $("#orderTable").hide();
     $("#bookt").fadeIn("slow");
+        //alert($("#username").html());
+    })
+
+
+
 </script>
 
 </body>

@@ -11,7 +11,7 @@
     <script src="js/jquery-2.1.4.js"></script>
     <script src="bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="js/helpFunction.js"></script>
-    <script src="js/login.js"></script>
+    <script src="js/user.js"></script>
 
 
 </head>
@@ -75,21 +75,24 @@
 
 
 <div id="reg_info" style="text-align: center; font-size: 20px">
-    <%
-        String login = request.getParameter("login");
 
-        if (login != null)
-        {
-            if (login.equals("logfail"))
-                out.print("Invalid Username or Password");
-            else if (login.equals("regok"))
-                out.print("Register Succeed.");
-            else if (login.equals("regfail"))
-                out.print("Register Failed. Invalid Username,password / username has been used");
-            else if (login.equals("pwdfail"))
-                out.print("Change Password Failed.");
-        }
-    %>
+
+    <%--<%--%>
+    <%--String login = request.getParameter("login");--%>
+
+    <%--if (login != null)--%>
+    <%--{--%>
+    <%--if (login.equals("logfail"))--%>
+    <%--out.print("Invalid Username or Password");--%>
+    <%--else if (login.equals("regok"))--%>
+    <%--out.print("Register Succeed.");--%>
+    <%--else if (login.equals("regfail"))--%>
+    <%--out.print("Register Failed. Invalid Username,password / username has been used");--%>
+    <%--else if (login.equals("pwdfail"))--%>
+    <%--out.print("Change Password Failed.");--%>
+    <%--}--%>
+    <%--%>--%>
+    <%----%>
 </div>
 
 </body>

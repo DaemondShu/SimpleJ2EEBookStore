@@ -27,7 +27,7 @@ public class Shop extends HttpServlet
     private static final String CARTDATA = "cartData";
     private static final String USERID = "userId";
     private static final String ORDERID = "orderId";
-    private static final String USERNAME = "useranme";
+    private static final String USERNAME = "username";
 
     //private static final String
     // private static final String
@@ -95,8 +95,8 @@ public class Shop extends HttpServlet
 
                 // order actions - cart actions
                 case "buy":
-                    int userId = Integer.parseInt(val(USERID));
-                    if (!shopAction.buy(cartGet(val(USERCART)), userId))
+                    // int userId = Integer.parseInt(val(USERID));
+                    if (!shopAction.buy(cartGet(val(USERCART)), val(USERNAME)))
                         throw new StoreException("backend failed");
                     cartSet(val(USERCART), "");
                     break;

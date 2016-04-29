@@ -2,6 +2,7 @@ package business;
 
 import data.DataManager;
 import entity.Order;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import javax.ejb.Stateful;
@@ -9,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.xml.transform.Result;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by monkey_d_asce on 16-3-31.
@@ -59,6 +61,22 @@ public class ShopActionBean implements ShopAction
     }
 
     @Override
+    public boolean buy(String cartData, String username)
+    {
+        try
+        {
+            DataManager dataManager = new DataManager(entityManager);
+            int userId = dataManager.user_queryid(username);
+            if (userId <= 0) return false;
+            else return buy(cartData, userId);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public String getOrder(String username)
     {
         String result = "";
@@ -68,18 +86,18 @@ public class ShopActionBean implements ShopAction
 
             int user_id = dataManager.user_queryid(username);
 
-            System.out.println(user_id);
-            List<Order> rs = dataManager.order_query(user_id);
+            //System.out.println(user_id);
+            List<Map> rs = dataManager.order_query(user_id);
 
-            System.out.println(JSONObject.fromObject(rs));
+            result = JSONArray.fromObject(rs).toString();
+            //System.out.println(result);
 
-            return result;
 
         } catch (Exception e)
         {
             e.printStackTrace();
-            return null;
         }
+        return result;
 
         /*
                 try
@@ -115,21 +133,22 @@ public class ShopActionBean implements ShopAction
     @Override
     public boolean delOrder(int orderId)
     {
-        /*
+
         try
         {
-            AccessDB ADB = new AccessDB();
-            if (orderid != null)
+            DataManager dataManager = new DataManager(entityManager);
+            if (orderId >= 0)
             {
-                System.out.println(orderid);
-                ADB.order_del(Integer.parseInt(orderid));
+                //System.out.println(orderid);
+                dataManager.order_del(orderId);
+                return true;
             }
 
         } catch (Exception e)
         {
             e.printStackTrace();
         }
-        */
+
         return false;
     }
 }

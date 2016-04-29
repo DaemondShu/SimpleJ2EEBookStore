@@ -19,4 +19,6 @@ public interface ShopAction
     boolean delOrder(int orderId);
 
     boolean buy(String cartData, int userId);
+
+    boolean buy(String cartData, String username);
 }

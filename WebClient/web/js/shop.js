@@ -2,11 +2,27 @@
  * Created by monkey_d_asce on 16-4-24.
  */
 
+var userObj = undefined;
+
+function checkUser()
+{
+    var jsonStr = getCookie("user");
+
+    if (jsonStr == null || jsonStr == "")
+    {
+        window.location = "../index.jsp"; //TODO tips
+        return;
+    }
+
+    userObj = JSON.parse(jsonStr);
+    $("#username").html(userObj.name);
+}
+
 
 
 function filterTypes(str)
 {
-    $("#ordertable").hide();
+    $("#orderTable").hide();
     $("#bookt").fadeIn("slow");
 
     booktable = document.getElementById("booktable");
@@ -97,7 +113,7 @@ function initBookTable()
 
 function search()
 {
-    $("#ordertable").hide();
+    $("#orderTable").hide();
     $("#bookt").fadeIn("slow");
     var searchcontent = document.getElementById("searchcontent").value;
     var booktable = document.getElementById("booktable");
@@ -149,15 +165,15 @@ function addToSession(bookId)
 function setSession(newdata)
 {
     var username = $("#username").text();
-    $.post("Shop",
+
+
+    ajax("Shop", "post",
         {
             action: "cartSet",
             userCart: username + "cart",
             cartData: newdata
         },
-        function (data, status)
-        {
-        });
+        emptyCallBack, emptyCallBack);
 }
 
 function addToCart(bookid)
@@ -165,13 +181,14 @@ function addToCart(bookid)
     addToSession(bookid);
 }
 
-function printcart()
+function printCart()
 {
     var tmp = "";
     var username = $("#username").text();
-    $.post("ShoppingGet",
+    ajax("Shop", "get",
         {
-            usercart: username + "cart",
+            action: "cartGet",
+            userCart: username + "cart",
         },
         function (session)
         {
@@ -193,10 +210,10 @@ function printcart()
             var tprice = 0;
             for (var key in cart)
             {
-                text += "<tr id=bookid" + key + ">";
+                text += "<tr id='bookid'" + key + ">";
                 text += "<td>" + key + "</td>";
 
-                book = document.getElementById("booktable" + key);
+                book = document.getElementById("book" + key);
                 text += "<td>" + book.cells[1].innerHTML + "</td>";
                 tprice += cart[key] * parseFloat(book.cells[3].innerHTML);
                 text += "<td>" + book.cells[3].innerHTML + "</td>";
@@ -221,41 +238,74 @@ function clearr()
 
 function buy()
 {
-    var username = $("#username").text();
+    //var username = $("#username").text();
 
-    $.post("ShoppingBuy",
+
+    ajax("Shop", "post",
         {
-            usercart: username + "cart",
+            action: "buy",
+            userCart: userObj.name + "cart",
+            username: userObj.name
         },
-        function (data, status)
+        function ()
         {
-
+            alert("checkout success");
         });
 }
 
-function showorder()
+var orderItemHtml = undefined;
+function showOrder()
 {
-    $("#ordertable").fadeIn("slow");
+    if (userObj == undefined)
+        return;
+
+    $("#orderTable").fadeIn("slow");
     $("#bookt").hide();
     var username = $("#username").text();
-    $.post("ShoppingOrder",
+
+    ajax("Shop", "get",
         {
-            username: username
+            action: "getOrder",
+            username: userObj.name
         },
-        function (data, status)
+        function (jsonStr)
         {
-            $("#ordertablebody").html(data);
+            var jsonArr = JSON.parse(jsonStr);
+            var orderTable = $("#orderTableBody");
+
+            if (orderItemHtml == undefined)
+                orderItemHtml = orderTable.html();
+            orderTable.html("");
+
+            var len = jsonArr.length;
+            var i = 0;
+            for (i = 0; i < len; i++)
+                orderTable.append(orderItemHtml);
+            for (i = 0; i < len; i++)
+            {
+                var obj = jsonArr[i];
+                var tr = orderTable.find("tr").eq(i);
+                tr.find(".id").html(obj.orderId);
+                tr.find(".name").html(obj.name);
+                tr.find(".price").html(obj.price);
+                tr.find(".date").html(obj.time);
+                tr.find(".cancel").attr("onclick", "delOrder(" + obj.orderId + ")");
+            }
+
+        });
+
+}
+
+function delOrder(id)
+{
+    ajax("Shop", "post",
+        {
+            action: "delOrder",
+            orderId: id
+        }, function ()
+        {
+            showOrder();
         });
 }
 
-function delorder(id)
-{
-    $.post("ShoppingDelorder",
-        {
-            orderid: id
-        },
-        function (data, status)
-        {
-            showorder();
-        });
-}
+

@@ -5,9 +5,9 @@ import entity.Order;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.sql.Array;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by monkey_d_asce on 16-3-26.
@@ -105,7 +105,7 @@ public class DataManager
             else return result;
         } catch (Exception e)
         {
-            e.printStackTrace();
+            // e.printStackTrace();
             return -1;
         }
     }
@@ -296,8 +296,9 @@ public class DataManager
     {
         try
         {
-            String sql = "DELETE FROM order WHERE orderId=" + order_id;
-            Query query = entityManager.createQuery(sql);
+            String sql = "DELETE FROM `order` WHERE orderId=" + order_id;
+            //保留字
+            Query query = entityManager.createNativeQuery(sql);
             query.executeUpdate();
             return true;
         } catch (Exception e)
@@ -325,16 +326,43 @@ public class DataManager
 		}
 	}*/
 
-    public List<Order> order_query(int user_id)
+    public List order_query(int user_id)
     {
         try
         {
-            String sql = user_id > -1 ? "Select orderId,name,price,time  FROM  bookstore.order natural join bookstore.book where user_id=" + user_id + " order by time desc"
+            List result = new ArrayList();
+
+
+            String sql = user_id > -1 ? "Select orderId,name,price,time  FROM  bookstore.order natural join bookstore.book where userId= :userId order by time desc"
                     : "Select orderId,name,price,time  FROM  bookstore.order natural join bookstore.book";
+
+            //  String hql = user_id > -1 ? "Select o.orderId,b.name,b.price,o.time  FROM order as o join book as b where o.userId=" + user_id + " order by o.time desc"
+            //          : "Select o.orderId,b.name,b.price,o.time  FROM  order o join book b";
+
+            // String hql = user_id > -1 ? "Select o.orderId,b.name,b.price,o.time  FROM order as o , book as b where (o.userId= :userId and b.bookId=o.bookId ) order by o.time desc"
+            //            : "Select o.orderId,b.name,b.price,o.time  FROM  order o join book b";
+
 
             Query query = entityManager.createNativeQuery(sql);
 
-            List<Order> result = query.getResultList();
+            query.setParameter("userId", user_id);
+
+            List<Object[]> tmp = query.getResultList();
+
+            int i = 0;
+            for (Object[] item : tmp)
+            {
+                Map map = new HashMap<String, Object>();
+                map.put("orderId", (int) item[0]);
+                map.put("name", (String) item[1]);
+                map.put("price", (float) item[2]);
+                map.put("time", item[3].toString());
+                result.add(map);
+                i++;
+            }
+
+            //List<Map> temp = result;
+
             return result;
         } catch (Exception e)
         {
@@ -348,7 +376,7 @@ public class DataManager
     {
         try
         {
-            //String	sql="Select USER_ID,name,sum(price) total FROM bookstore.user natural left outer join ( SELECT USER_ID,price FROM bookstore.order natural join bookstore.book) aa group by USER_ID,name order by total desc ";
+            //String	sql="Select USER_ID,name,sum(price) total FROM user  natural left outer join ( SELECT USER_ID,price FROM bookstore.order natural join bookstore.book) aa group by USER_ID,name order by total desc ";
             String sql = "Select USER_ID,name,sum(price) total FROM bookstore.user natural left outer join ( SELECT USER_ID,price FROM bookstore.order natural join bookstore.book) aa group by USER_ID,name order by total desc ";
             Query query = entityManager.createNativeQuery(sql);
             List<Object[]> result = query.getResultList();

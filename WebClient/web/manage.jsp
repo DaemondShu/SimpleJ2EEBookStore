@@ -260,23 +260,23 @@
 <%
     //session.setAttribute("username", "admin");
     Object tmp = session.getAttribute("username");
-    if (tmp == null) response.sendRedirect("login.jsp=logfail");
+    if (tmp == null) response.sendRedirect("index.jsp=logfail");
     String user = tmp.toString();
     try
     {
         String logcheck = request.getParameter("login");
         if (logcheck == null || logcheck.equals(""))
-            response.sendRedirect("login.jsp=logfail");
+            response.sendRedirect("index.jsp=logfail");
 
         int login = Integer.parseInt(logcheck);
         //int login=1021;
         if (user == null || user.equals("") || login != 1021)
         {
-            response.sendRedirect("login.jsp=logfail");
+            response.sendRedirect("index.jsp=logfail");
         }
     } catch (Exception e)
     {
-        response.sendRedirect("login.jsp=logfail");
+        response.sendRedirect("index.jsp=logfail");
     }
 %>
 <%
@@ -326,7 +326,7 @@
                             class="glyphicon glyphicon-user"></span> <%=user %> <span
                             class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="login.jsp">Log out</a></li>
+                        <li><a href="index.jsp">Log out</a></li>
                     </ul>
                 </li>
             </ul>

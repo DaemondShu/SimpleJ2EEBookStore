@@ -4,6 +4,7 @@ import business.UserAction;
 import jdk.nashorn.internal.ir.Expression;
 import jdk.nashorn.internal.ir.RuntimeNode;
 import jdk.nashorn.internal.parser.JSONParser;
+import sun.awt.geom.AreaOp;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -82,10 +83,15 @@ public class User extends HttpServlet
                     response.getWriter().println(userAction.table());
                     break;
 
+                case "logout":
+                    request.logout();
+                    break;
+
                 case "del":
                     int userId = Integer.parseInt(val(USERID));
                     if (!userAction.del(userId))
                         throw new Exception("delete user failed");
+                    break;
                 default:
                     throw new Exception("invalid action");
             }
@@ -99,7 +105,12 @@ public class User extends HttpServlet
             //e.printStackTrace()；
             System.out.println(e.getMessage());
             e.printStackTrace();
-            response.sendError(222, e.getMessage());
+            //response.sendError();
+            response.sendError(520, e.getMessage());
+            String t = e.getMessage();
+            writer.write(t);
+            //writer.print(t);
+            //response.setStatus(404);
         }
         writer.flush();
         writer.close();

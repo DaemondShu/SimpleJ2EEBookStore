@@ -12,6 +12,7 @@
 
     <script src="js/helpFunction.js"></script>
     <script src="js/shop.js"></script>
+    <script src="js/user.js"></script>
 
     <title>Shop</title>
 </head>
@@ -69,9 +70,9 @@
                         <nobr id="username">user</nobr>
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" onclick="showOrder()"> my order</a>
-                        <li><a href="index.jsp">Log out</a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#myModal"
+                        <li><a href="javascript:void(0);" onclick="showOrder()"> my order</a>
+                        <li><a href="javascript:void(0);" onclick="logout()">Log out</a></li>
+                        <li><a href="javascript:void(0);" data-toggle="modal" data-target="#myModal"
                                style="margin: 0 auto;">Modify Password</a></li>
                     </ul>
                 </li>
@@ -187,10 +188,10 @@
     $(document).ready(function ()
     {
         checkUser();
-    initBookTable();
+        initBookTable();
 
         $("#orderTable").hide();
-    $("#bookt").fadeIn("slow");
+        $("#bookt").fadeIn("slow");
         //alert($("#username").html());
     })
 

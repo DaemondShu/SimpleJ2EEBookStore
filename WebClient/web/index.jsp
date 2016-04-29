@@ -76,23 +76,6 @@
 
 <div id="reg_info" style="text-align: center; font-size: 20px">
 
-
-    <%--<%--%>
-    <%--String login = request.getParameter("login");--%>
-
-    <%--if (login != null)--%>
-    <%--{--%>
-    <%--if (login.equals("logfail"))--%>
-    <%--out.print("Invalid Username or Password");--%>
-    <%--else if (login.equals("regok"))--%>
-    <%--out.print("Register Succeed.");--%>
-    <%--else if (login.equals("regfail"))--%>
-    <%--out.print("Register Failed. Invalid Username,password / username has been used");--%>
-    <%--else if (login.equals("pwdfail"))--%>
-    <%--out.print("Change Password Failed.");--%>
-    <%--}--%>
-    <%--%>--%>
-    <%----%>
 </div>
 
 </body>

@@ -63,12 +63,27 @@ function userLogin()
 
 function SignUp()
 {
+    var regForm = $("#SignUpForm");
+    var formData = regForm.serializeObject();
+    formData.action = "register";
 
-    var form = $("#SignUpForm");
-    var data = form.serializeObject();
-    data.action = "register";
-    ajax("User", "post", data, emptyCallBack);
-
+    ajax("User", "post", formData,
+        function (data, status)
+        {
+            msg("SignUp success!", 1);
+            self.location.reload();
+        });
 }
 
 
+function logout()
+{
+    setCookie("user", "{}", "d1", "/");
+    ajax("User", "post",
+        {
+            action: "logout"
+        }, function ()
+        {
+            self.location = "index.jsp";
+        });
+}

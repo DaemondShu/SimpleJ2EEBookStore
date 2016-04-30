@@ -28,6 +28,7 @@ public class Shop extends HttpServlet
     private static final String USERID = "userId";
     private static final String ORDERID = "orderId";
     private static final String USERNAME = "username";
+    private static final int ERRORCODE = 520;
 
     //private static final String
     // private static final String
@@ -117,11 +118,14 @@ public class Shop extends HttpServlet
             }
         } catch (StoreException e)
         {
-            System.out.println(e.getMessage());
-            //response.sendError();
+            String t = e.getMessage();
+            System.out.println(t);
+            response.setStatus(ERRORCODE);
+            writer.write(t);
         } catch (Exception e)
         {
             e.printStackTrace();
+            response.setStatus(500);
         }
         writer.flush();
         writer.close();

@@ -24,6 +24,7 @@ public class Book extends HttpServlet
     private static final String NAME = "name";
     private static final String TYPE = "type";
     private static final String PRICE = "price";
+    private static final int ERRORCODE = 520;
 
 
     @EJB(name = "BookAction")
@@ -67,13 +68,14 @@ public class Book extends HttpServlet
             }
         } catch (StoreException e)
         {
-            System.out.println(e.getMessage());
-            response.sendError(222, e.getMessage());
+            String t = e.getMessage();
+            System.out.println(t);
+            response.setStatus(ERRORCODE);
+            writer.write(t);
         } catch (Exception e)
         {
-            System.out.println(e.getMessage());
             e.printStackTrace();
-            response.sendError(222, e.getMessage());
+            response.setStatus(500);
         }
         writer.flush();
         writer.close();

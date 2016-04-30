@@ -72,7 +72,11 @@ function SignUp()
         {
             msg("SignUp success!", 1);
             self.location.reload();
-        });
+        }, function (error)
+        {
+            alert(error.responseText);
+        }
+    );
 }
 
 

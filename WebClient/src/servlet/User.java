@@ -1,6 +1,7 @@
 package servlet;
 
 import business.UserAction;
+import exception.StoreException;
 import jdk.nashorn.internal.ir.Expression;
 import jdk.nashorn.internal.ir.RuntimeNode;
 import jdk.nashorn.internal.parser.JSONParser;
@@ -28,7 +29,7 @@ public class User extends HttpServlet
     private static final String PWD1 = "pwd1";
     private static final String PWD2 = "pwd2";
     private static final String USERID = "id";
-
+    private static final int ERRORCODE = 520;
 
     @EJB(name = "UserAction")
     private UserAction userAction;
@@ -71,12 +72,12 @@ public class User extends HttpServlet
 
                 case "register":
                     if (!userAction.register(val(USERNAME), val(PWD1), val(PWD2)))
-                        throw new Exception("register failed");
+                        throw new StoreException("register failed");
                     break;
 
                 case "chpwd":
                     if (!userAction.register(val(USERNAME), val(PWD1), val(PWD2)))
-                        throw new Exception("change password failed");
+                        throw new StoreException("change password failed");
                     break;
 
                 case "table":
@@ -90,27 +91,25 @@ public class User extends HttpServlet
                 case "del":
                     int userId = Integer.parseInt(val(USERID));
                     if (!userAction.del(userId))
-                        throw new Exception("delete user failed");
+                        throw new StoreException("delete user failed");
                     break;
                 default:
-                    throw new Exception("invalid action");
+                    throw new StoreException("invalid action");
             }
             //login
 
 
+        } catch (StoreException e)
+        {
+            String t = e.getMessage();
+            System.out.println(t);
+            response.setStatus(ERRORCODE);
+            writer.write(t);
         }
-
         catch (Exception e)
         {
-            //e.printStackTrace()；
-            System.out.println(e.getMessage());
             e.printStackTrace();
-            //response.sendError();
-            response.sendError(520, e.getMessage());
-            String t = e.getMessage();
-            writer.write(t);
-            //writer.print(t);
-            //response.setStatus(404);
+            response.setStatus(500);
         }
         writer.flush();
         writer.close();

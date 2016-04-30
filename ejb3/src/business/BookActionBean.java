@@ -3,13 +3,10 @@ package business;
 import data.DataManager;
 import entity.Book;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.io.Console;
 import java.util.List;
 
 /**
@@ -18,8 +15,8 @@ import java.util.List;
 @Stateless(name = "BookEJB")
 public class BookActionBean implements BookAction
 {
-    @PersistenceContext(unitName = "JPADB")
-    private EntityManager entityManager;
+    @EJB(name = "DataManager")
+    DataManager dataManager;
 
     public BookActionBean()
     {
@@ -31,7 +28,7 @@ public class BookActionBean implements BookAction
         String result = "";
         try
         {
-            DataManager dataManager = new DataManager(entityManager);
+            //DataManager dataManager = new DataManager(entityManager);
 
             List<Book> rs = dataManager.book_queryall(null);
 
@@ -54,7 +51,7 @@ public class BookActionBean implements BookAction
     {
         try
         {
-            DataManager dataManager = new DataManager(entityManager);
+            //DataManager dataManager = new DataManager(entityManager);
             if (bookId >= 0)
             {
                 return dataManager.book_del(bookId);
@@ -71,7 +68,7 @@ public class BookActionBean implements BookAction
     {
         try
         {
-            DataManager dataManager = new DataManager(entityManager);
+            //DataManager dataManager = new DataManager(entityManager);
 
             if (name != null && type != null && price != null)
             {

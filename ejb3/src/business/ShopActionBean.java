@@ -1,14 +1,10 @@
 package business;
 
 import data.DataManager;
-import entity.Order;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateful;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.xml.transform.Result;
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +15,9 @@ import java.util.Map;
 public class ShopActionBean implements ShopAction
 {
 
-    @PersistenceContext(unitName = "JPADB")
-    private EntityManager entityManager;
+
+    @EJB(name = "DataManager")
+    DataManager dataManager;
 
     public ShopActionBean()
     {
@@ -37,7 +34,7 @@ public class ShopActionBean implements ShopAction
 
         try
         {
-            DataManager dataManager = new DataManager(entityManager);
+            //DataManager dataManager = new DataManager(entityManager);
 
 
             String[] books = cartData.split(";");
@@ -65,7 +62,7 @@ public class ShopActionBean implements ShopAction
     {
         try
         {
-            DataManager dataManager = new DataManager(entityManager);
+            //DataManager dataManager = new DataManager(entityManager);
             int userId = dataManager.user_queryid(username);
             if (userId <= 0) return false;
             else return buy(cartData, userId);
@@ -82,7 +79,7 @@ public class ShopActionBean implements ShopAction
         String result = "";
         try
         {
-            DataManager dataManager = new DataManager(entityManager);
+            //DataManager dataManager = new DataManager(entityManager);
 
             int user_id = dataManager.user_queryid(username);
 
@@ -136,7 +133,7 @@ public class ShopActionBean implements ShopAction
 
         try
         {
-            DataManager dataManager = new DataManager(entityManager);
+            //DataManager dataManager = new DataManager(entityManager);
             if (orderId >= 0)
             {
                 //System.out.println(orderid);

@@ -1,11 +1,8 @@
 package business;
 
-import data.DataManager;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
 
 
 /**
@@ -16,7 +13,7 @@ public class SaleStatActionBean implements SaleStatAction
 {
     @PersistenceContext(unitName = "JPADB")
     private EntityManager entityManager;
-
+/*
     public SaleStatActionBean()
     {
     }
@@ -101,5 +98,5 @@ public class SaleStatActionBean implements SaleStatAction
             e.printStackTrace();
         }
         return result;
-    }
+    }*/
 }

@@ -2,9 +2,8 @@ package business;
 
 import data.DataManager;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -13,9 +12,11 @@ import java.util.List;
 @Stateless(name = "UserActionEJB")
 public class UserActionBean implements UserAction
 {
-    @PersistenceContext(unitName = "JPADB")
-    private EntityManager entityManager;
+    //@PersistenceContext(unitName = "JPADB")
+    //private EntityManager entityManager;
 
+    @EJB(name = "DataManager")
+    DataManager dataManager;
 
     public UserActionBean()
     {
@@ -28,7 +29,7 @@ public class UserActionBean implements UserAction
     {
         try
         {
-            DataManager dataManager = new DataManager(entityManager);
+            //DataManager dataManager = new DataManager(entityManager);
             String truepwd = dataManager.user_querypwd(username);
             if (password.equals(truepwd))
             {
@@ -53,7 +54,7 @@ public class UserActionBean implements UserAction
         {
             if (pwd1 != null && pwd2 != null)
             {
-                DataManager dataManager = new DataManager(entityManager);
+                //DataManager dataManager = new DataManager(entityManager);
 
                 //AccessDB ADB = new AccessDB();
                 String truePassword = dataManager.user_querypwd(username);
@@ -78,7 +79,7 @@ public class UserActionBean implements UserAction
         {
             if (pwd1 != null && pwd2 != null)
             {
-                DataManager dataManager = new DataManager(entityManager);
+                //DataManager dataManager = new DataManager(entityManager);
 
                 if (pwd1.equals(pwd2))
                 {
@@ -100,7 +101,7 @@ public class UserActionBean implements UserAction
         String result = "";
         try
         {
-            DataManager dataManager = new DataManager(entityManager);
+            //DataManager dataManager = new DataManager(entityManager);
 
             //AccessDB ADB = new AccessDB();
             List<Object[]> resultList = dataManager.user_queryall();
@@ -133,7 +134,7 @@ public class UserActionBean implements UserAction
     {
         try
         {
-            DataManager dataManager = new DataManager(entityManager);
+            //DataManager dataManager = new DataManager(entityManager);
             //AccessDB ADB = new AccessDB();
 
             if (userId >= 0)

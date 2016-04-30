@@ -16,302 +16,65 @@
     <title>Insert title here</title>
     <script>
 
-        function updateusertable() {
-
-            $.post("UserTable",
-                    {},
-                    function (data, status) {
-                        $("#usertablebody").html(data);
-                    });
-        }
-        function updatebooktable() {
-            $.post("BookTable",
-                    {},
-                    function (data, status) {
-                        $("#booktablebody").html(data);
-                    });
-        }
-        function updateuserstat() {
-            $.post("StatByUser",
-                    {},
-                    function (data, status) {
-                        $("#userstatbody").html(data);
-                    });
-        }
-
-        function updatetypestat() {
-            $.post("StatByType",
-                    {},
-                    function (data, status) {
-                        arr = data.split(";");
-                        var j = 0;
-                        var xx = new Array();
-                        var xyy = new Array();
-                        for (var i = 0; i < arr.length - 1; i = i + 2) {
-                            j = i / 2;
-                            xx[j] = arr[i];
-                            xyy[j] =
-                            {
-                                value: parseInt(arr[i + 1]),
-                                name: arr[i]
-                            };
-                        }
-
-
-                        var myChart = echarts.init(document.getElementById('typestat'));
-                        option = {
-                            title: {
-                                text: '书籍各类目销售额对比',
-                                x: 'center'
-                            },
-                            tooltip: {
-                                trigger: 'item',
-                                formatter: "{a} <br/>{b} : {c} ({d}%)"
-                            },
-                            legend: {
-                                orient: 'vertical',
-                                x: 'left',
-                                data: xx
-                            },
-                            calculable: true,
-                            series: [
-                                {
-                                    name: '书籍类目',
-                                    type: 'pie',
-                                    radius: '55%',
-                                    center: ['30%', '60%'],
-                                    data: xyy
-                                }
-                            ]
-                        };
-                        myChart.setOption(option);
-                    });
-        }
-
-        function updatedatestat() {
-            $.post("StatByDate",
-                    {},
-                    function (data, status) {
-                        arr = data.split(";");
-                        var j = 0;
-                        var xx = new Array();
-                        var yy = new Array();
-                        var start_time = $('#start').val();
-                        var end_time = $('#end').val();
-                        for (var i = 0; i < arr.length - 1; i = i + 2) {
-                            //j=i/2;
-                            if (arr[i] >= start_time && arr[i] <= end_time) {
-                                xx[j] = arr[i];
-                                yy[j] = parseInt(arr[i + 1]);
-                                j++;
-                            }
-
-                        }
-                        var myChart = echarts.init(document.getElementById('datestat'));
-
-                        option = {
-                            title: {
-                                text: '销售记录折线图'
-                            },
-                            tooltip: {
-                                trigger: 'axis'
-                            },
-                            legend: {
-                                data: ['日总销售额']
-                            },
-                            calculable: true,
-                            toolbox: {
-                                show: true,
-                                feature: {
-                                    magicType: {show: true, type: ['line', 'bar']},
-                                }
-                            },
-                            xAxis: [
-                                {
-                                    type: 'category',
-                                    boundaryGap: false,
-                                    data: xx
-                                }
-                            ],
-                            yAxis: [
-                                {
-                                    type: 'value',
-                                    axisLabel: {
-                                        formatter: '{value} $'
-                                    }
-                                }
-                            ],
-                            series: [
-                                {
-                                    name: '日总销售额',
-                                    type: 'line',
-                                    data: yy,
-                                    markPoint: {
-                                        data: [
-                                            {type: 'max', name: '最大值'},
-                                            {type: 'min', name: '最小值'}
-                                        ]
-                                    },
-                                    markLine: {
-                                        data: [
-                                            {type: 'average', name: '平均值'}
-                                        ]
-                                    }
-                                }
-                            ]
-                        };
-                        myChart.setOption(option);
-                    })
-        }
-
-        function showusertable() {
-            updateusertable();
-            $("#usertable").fadeIn("slow");
-            $("#booktable").hide();
-            $("#userstat").hide();
-            $("#typestat").hide();
-            $("#datestat").hide();
-            $("#datepicker").hide();
-        }
-
-        function showbooktable() {
-            updatebooktable();
-            $("#usertable").hide();
-            $("#booktable").fadeIn("slow");
-            $("#userstat").hide();
-            $("#typestat").hide();
-            $("#datestat").hide();
-            $("#datepicker").hide();
-        }
-
-        function showuserstat() {
-            updateuserstat();
-            $("#usertable").hide();
-            $("#booktable").hide();
-            $("#userstat").fadeIn("slow");
-            $("#typestat").hide();
-            $("#datestat").hide();
-            $("#datepicker").hide();
-        }
-
-        function showtypestat() {
-            updatetypestat();
-            $("#usertable").hide();
-            $("#booktable").hide();
-            $("#userstat").hide();
-            $("#typestat").fadeIn("slow");
-            $("#datestat").hide();
-            $("#datepicker").hide();
-        }
-
-        function showdatestat() {
-            updatedatestat();
-            $("#usertable").hide();
-            $("#booktable").hide();
-            $("#userstat").hide();
-            $("#typestat").hide();
-            $("#datepicker").fadeIn();
-            $("#datestat").fadeIn("slow");
-
-        }
-
-        function deluser(id) {
-            $.post("UserDel",
-                    {
-                        userid: id.toString()
-                    },
-                    function (data, status) {
-                        if (data != "ok") alert("delete failed");
-                        else updateusertable();
-                    });
-        }
-
-        function delbook(id) {
-            $.post("BookDel",
-                    {
-                        bookid: id.toString()
-                    },
-                    function (data, status) {
-                        if (data != "ok") alert("delete failed");
-                        else updatebooktable();
-                    });
-        }
-
-        function addbook() {
-            $.post("BookAdd",
-                    {
-                        name: $("#bookname")[0].value,
-                        type: $("#booktype")[0].value,
-                        price: $("#bookprice")[0].value
-                    },
-                    function (data, status) {
-                        if (data != "ok") alert("Add failed");
-                        else {
-                            updatebooktable();
-                            //$("#myModal").fadeOut();
-                        }
-                    });
-        }
     </script>
 
 
 </head>
 <body>
-<%
-    //session.setAttribute("username", "admin");
-    Object tmp = session.getAttribute("username");
-    if (tmp == null) response.sendRedirect("index.jsp=logfail");
-    String user = tmp.toString();
-    try
-    {
-        String logcheck = request.getParameter("login");
-        if (logcheck == null || logcheck.equals(""))
-            response.sendRedirect("index.jsp=logfail");
+<%--<%--%>
+<%--//session.setAttribute("username", "admin");--%>
+<%--Object tmp = session.getAttribute("username");--%>
+<%--if (tmp == null) response.sendRedirect("index.jsp=logfail");--%>
+<%--String user = tmp.toString();--%>
+<%--try--%>
+<%--{--%>
+<%--String logcheck = request.getParameter("login");--%>
+<%--if (logcheck == null || logcheck.equals(""))--%>
+<%--response.sendRedirect("index.jsp=logfail");--%>
 
-        int login = Integer.parseInt(logcheck);
-        //int login=1021;
-        if (user == null || user.equals("") || login != 1021)
-        {
-            response.sendRedirect("index.jsp=logfail");
-        }
-    } catch (Exception e)
-    {
-        response.sendRedirect("index.jsp=logfail");
-    }
-%>
-<%
-    //AccessDB.testS();
-    //String type = request.getParameter("type");
-    // 	AccessDB ADB = new AccessDB();
-    // 	ResultSet rs = ADB.book_queryall(null);
-    // 	ResultSet rs = null;
+<%--int login = Integer.parseInt(logcheck);--%>
+<%--//int login=1021;--%>
+<%--if (user == null || user.equals("") || login != 1021)--%>
+<%--{--%>
+<%--response.sendRedirect("index.jsp=logfail");--%>
+<%--}--%>
+<%--} catch (Exception e)--%>
+<%--{--%>
+<%--response.sendRedirect("index.jsp=logfail");--%>
+<%--}--%>
+<%--%>--%>
+<%--<%--%>
+<%--//AccessDB.testS();--%>
+<%--//String type = request.getParameter("type");--%>
+<%--// 	AccessDB ADB = new AccessDB();--%>
+<%--// 	ResultSet rs = ADB.book_queryall(null);--%>
+<%--// 	ResultSet rs = null;--%>
 
-    // 	String booktable="";
-    // 	String typelist="";
+<%--// 	String booktable="";--%>
+<%--// 	String typelist="";--%>
 
-    // 	int i=0;
-    // 	if (rs!=null)
-    // 	{
-    // 	    while (rs.next())
-    // 	    {
-    // 	    	String temptype=rs.getString("type");
-    // 	    	int book_id=rs.getInt("BOOK_ID");
-    // 			booktable+="<tr id=booktable"+book_id+">";
-    // 			booktable+="<td>" + book_id + "</td>";
-    // 			booktable+="<td>" + rs.getString("name") + "</td>";
-    // 			booktable+="<td>" + temptype + "</td>";
-    // 			booktable+="<td>$" + rs.getFloat("price") + "</td>";
-    // 			booktable+="<td><a onclick=\"addToCart("+book_id+")\" href=\"#\"> <span class=\"glyphicon glyphicon-shopping-cart\"> </span> </a><td>";
-    // 			booktable+="</tr>";
-    // 			if (typelist.indexOf(temptype)==-1)
-    // 				typelist+="<li><a href=\"#\" onclick=\"fliterTypes('"+temptype+"')\">"+temptype+"<span class=\"glyphicon glyphicon-chevron-right\"> </span> </a></li>";
-    // 			i++;
-    // 	    }
-    // 	}
-%>
+<%--// 	int i=0;--%>
+<%--// 	if (rs!=null)--%>
+<%--// 	{--%>
+<%--// 	    while (rs.next())--%>
+<%--// 	    {--%>
+<%--// 	    	String temptype=rs.getString("type");--%>
+<%--// 	    	int book_id=rs.getInt("BOOK_ID");--%>
+<%--// 			booktable+="<tr id=booktable"+book_id+">";--%>
+<%--// 			booktable+="<td>" + book_id + "</td>";--%>
+<%--// 			booktable+="<td>" + rs.getString("name") + "</td>";--%>
+<%--// 			booktable+="<td>" + temptype + "</td>";--%>
+<%--// 			booktable+="<td>$" + rs.getFloat("price") + "</td>";--%>
+<%--// 			booktable+="<td><a onclick=\"addToCart("+book_id+")\" href=\"#\"> <span class=\"glyphicon glyphicon-shopping-cart\"> </span> </a><td>";--%>
+<%--// 			booktable+="</tr>";--%>
+<%--// 			if (typelist.indexOf(temptype)==-1)--%>
+<%--// 				typelist+="<li><a href=\"#\" onclick=\"fliterTypes('"+temptype+"')\">"+temptype+"<span class=\"glyphicon glyphicon-chevron-right\"> </span> </a></li>";--%>
+<%--// 			i++;--%>
+<%--// 	    }--%>
+<%--// 	}--%>
+<%--%>--%>
 
-<a id="dowhat" style="display: none"><%=user%>
-</a>
+
 
 <nav class="navbar navbar-default" role="navigation"
      style="margin-bottom: 1px">
@@ -322,15 +85,16 @@
         <div>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span
-                            class="glyphicon glyphicon-user"></span> <%=user %> <span
-                            class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        <span class="glyphicon glyphicon-user"></span>
+
+                        <span class="caret"></span>
+                    </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="index.jsp">Log out</a></li>
                     </ul>
                 </li>
             </ul>
-
         </div>
     </div>
 </nav>

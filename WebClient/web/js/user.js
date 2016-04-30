@@ -91,3 +91,16 @@ function logout()
             self.location = "index.jsp";
         });
 }
+
+function chPwd()
+{
+    var regForm = $("#pwdForm");
+    var formData = regForm.serializeObject();
+    formData.action = "chpwd";
+    ajax("User", "post", formData,
+        function ()
+        {
+            msg("success!", 1);
+            self.location.reload();
+        });
+}

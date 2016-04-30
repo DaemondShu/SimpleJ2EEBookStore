@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -166,7 +165,7 @@
                 <h4 class="modal-title" id="myModalLabel">Modify the Password</h4>
             </div>
             <div class="modal-body">
-                <FORM METHOD=POST ACTION="UserChpwd"
+                <FORM id="pwdForm"
                       style="text-align: center; font-size: 20px">
                     Username:<input TYPE=TEXT class="form-control"
                                     NAME="username" style="width: 40%; height: 35px; margin: 0 auto;">
@@ -174,7 +173,7 @@
                                        NAME="pwd1" style="width: 40%; height: 35px; margin: 0 auto;">
                     Newpassword:<input TYPE=PASSWORD class="form-control"
                                        NAME="pwd2" style="width: 40%; height: 35px; margin: 0 auto;">
-                    <BR> <input id="reg" class="btn btn-default" TYPE=SUBMIT
+                    <BR> <input id="reg" class="btn btn-default" TYPE=button onclick="chPwd()"
                                 value="confirm"
                                 style="padding: 3px; margin: 10px 0; font-size: 17px;">
                 </FORM>

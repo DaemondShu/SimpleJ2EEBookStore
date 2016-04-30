@@ -76,7 +76,7 @@ public class User extends HttpServlet
                     break;
 
                 case "chpwd":
-                    if (!userAction.register(val(USERNAME), val(PWD1), val(PWD2)))
+                    if (!userAction.changePassword(val(USERNAME), val(PWD1), val(PWD2)))
                         throw new StoreException("change password failed");
                     break;
 

@@ -12,6 +12,7 @@ import java.util.*;
 
 /**
  * Created by monkey_d_asce on 16-3-26.
+ * 提供各种数据库的单词操作。
  */
 
 @Stateless(name = "DataManagerEJB")
@@ -20,10 +21,28 @@ public class DataManagerBean implements DataManager
     @PersistenceContext(unitName = "JPADB")
     private EntityManager entityManager;
 
+
     public DataManagerBean()
     {
-
     }
+
+/*
+    public void TransactionBegin()
+    {
+        entityManager.getTransaction().begin();
+    }
+
+    public void TransactionCommit()
+    {
+        entityManager.getTransaction().commit();
+    }
+
+    public void TransactionRollback()
+    {
+        entityManager.getTransaction().rollback();
+    }
+
+*/
 
     public boolean user_insert(String name, String pwd)
     {

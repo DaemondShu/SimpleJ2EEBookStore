@@ -52,4 +52,12 @@ public interface DataManager
     List total_typequery();
 
     List total_datequery();
+
+
+/*    void TransactionBegin();
+
+    void TransactionCommit();
+
+
+    void TransactionRollback();*/
 }

@@ -3,15 +3,17 @@ package business;
 import data.DataManager;
 import net.sf.json.JSONArray;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
+import javax.annotation.Resource;
+import javax.ejb.*;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Created by monkey_d_asce on 16-3-31.
  */
-@Stateful(name = "ShopActionEJB")
+
+@TransactionManagement(TransactionManagementType.CONTAINER)
+@Stateless(name = "ShopActionEJB")
 public class ShopActionBean implements ShopAction
 {
 
@@ -19,15 +21,15 @@ public class ShopActionBean implements ShopAction
     @EJB(name = "DataManager")
     DataManager dataManager;
 
+    @Resource
+    private SessionContext context;
+
     public ShopActionBean()
     {
     }
 
 
-    /*
-    TODO: NEED FIX
-     */
-
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Override
     public boolean buy(String cartData, int userId)
     {
@@ -35,7 +37,8 @@ public class ShopActionBean implements ShopAction
         try
         {
             //DataManager dataManager = new DataManager(entityManager);
-
+            // dataManager.TransactionBegin();
+            //UserTransaction
 
             String[] books = cartData.split(";");
 
@@ -43,14 +46,17 @@ public class ShopActionBean implements ShopAction
                 if (!books[i].equals(""))
                 {
                     int bookId = Integer.parseInt(books[i]);
-                    dataManager.order_insert(userId, bookId, "address");
+                    if (!dataManager.order_insert(userId, bookId, "address"))
+                        throw new Exception("bad order_insert");
                 }
 
             //TODO ALL OR NOTHING
-
+            // dataManager.TransactionCommit();
             return true;
         } catch (Exception e)
         {
+            //dataManager.TransactionRollback();
+            context.setRollbackOnly();
             e.printStackTrace();
             return false;
         }
@@ -68,6 +74,7 @@ public class ShopActionBean implements ShopAction
             else return buy(cartData, userId);
         } catch (Exception e)
         {
+            context.setRollbackOnly();
             e.printStackTrace();
             return false;
         }
@@ -92,39 +99,11 @@ public class ShopActionBean implements ShopAction
 
         } catch (Exception e)
         {
+            context.setRollbackOnly();
             e.printStackTrace();
         }
         return result;
 
-        /*
-                try
-		{
-			AccessDB ADB = new AccessDB();
-			int user_id = ADB.user_queryid(username);
-			System.out.println(user_id);
-			List<Object[]> rs = ADB.order_query(user_id);
-			if (rs != null)
-			{
-
-				for (Object[] obj : rs)
-				{
-					out.print("<tr>");
-					for (int i = 0; i < 4; i++)
-						out.print("<td>" + obj[i].toString() + "</td>");
-					out.print("<td><a onclick=\"delorder("
-							+ obj[0].toString()
-							+ ")\" href=\"#\"> <span class=\"glyphicon glyphicon-remove\"> </span> </a></td>");
-
-					out.print("</tr>");
-				}
-			}
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		out.print("");
-		out.close();
-         */
     }
 
     @Override
@@ -143,6 +122,7 @@ public class ShopActionBean implements ShopAction
 
         } catch (Exception e)
         {
+            context.setRollbackOnly();
             e.printStackTrace();
         }
 

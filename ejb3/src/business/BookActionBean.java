@@ -82,5 +82,19 @@ public class BookActionBean implements BookAction
         return false;
     }
 
+    @Override
+    public String detail(int bookId)
+    {
+        try
+        {
+            return dataManager.bookDetail(bookId);
+            //DataManager dataManager = new DataManager(entityManager);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return "nothing";
+        }
+    }
+
 
 }

@@ -14,4 +14,6 @@ public interface BookAction
     boolean del(int bookId);
 
     boolean add(String name, String type, String price);
+
+    String detail(int bookId);
 }

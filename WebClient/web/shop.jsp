@@ -101,6 +101,7 @@
                     <th>NAME</th>
                     <th>TYPE</th>
                     <th>PRICE</th>
+                    <th>DETAIL</th>
                     <th>ADDTOCART</th>
                 </tr>
                 </thead>
@@ -111,6 +112,11 @@
                     <td class="bookName">载入中</td>
                     <td class="bookType">type</td>
                     <td class="bookPrice">100</td>
+                    <td>
+                        <a class="bookDetail" onclick="getDetail()" href="#"> <span
+                                class="glyphicon glyphicon-list-alt"> </span>
+                        </a>
+                    </td>
                     <td><a class="bookButton" onclick="addToCart()" href="#"> <span
                             class="glyphicon glyphicon-shopping-cart"> </span>
                     </a>

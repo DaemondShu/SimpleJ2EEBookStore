@@ -277,6 +277,24 @@ public class DataManagerBean implements DataManager
         }
     }
 
+    @Override
+    public String bookDetail(int book_id)
+    {
+        try
+        {
+            String sql = "SELECT name FROM book b WHERE bookId=" + book_id;
+
+            Query query = entityManager.createNativeQuery(sql);
+
+            String result = (String) query.getSingleResult();
+            return result + "'s description";
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return "nothing";
+        }
+    }
+
     public int book_queryid(String name)
     {
         try
@@ -354,15 +372,15 @@ public class DataManagerBean implements DataManager
         List result = new ArrayList();
         try
         {
-            String sql = user_id > -1 ? "Select orderId,name,price,time  FROM  bookstore.order natural join bookstore.book where userId= :userId order by time desc"
-                    : "Select orderId,name,price,time  FROM  bookstore.order natural join bookstore.book";
-
             //  String hql = user_id > -1 ? "Select o.orderId,b.name,b.price,o.time  FROM order as o join book as b where o.userId=" + user_id + " order by o.time desc"
             //          : "Select o.orderId,b.name,b.price,o.time  FROM  order o join book b";
 
             // String hql = user_id > -1 ? "Select o.orderId,b.name,b.price,o.time  FROM order as o , book as b where (o.userId= :userId and b.bookId=o.bookId ) order by o.time desc"
             //            : "Select o.orderId,b.name,b.price,o.time  FROM  order o join book b";
 
+
+            String sql = user_id > -1 ? "Select orderId,name,price,time  FROM  bookstore.order natural join bookstore.book where userId= :userId order by time desc"
+                    : "Select orderId,name,price,time  FROM  bookstore.order natural join bookstore.book";
 
             Query query = entityManager.createNativeQuery(sql);
 

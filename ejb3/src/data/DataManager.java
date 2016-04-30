@@ -39,6 +39,8 @@ public interface DataManager
 
     List<Object[]> book_queryone(int book_id);
 
+    String bookDetail(int book_id);
+
     int book_queryid(String name);
 
     boolean order_insert(int user_id, int book_id, String address);

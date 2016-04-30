@@ -99,6 +99,8 @@ function initBookTable()
                 item.find(".bookType").html(book.type);
                 item.find(".bookName").html(book.name);
                 item.find(".bookPrice").html(book.price);
+                item.find(".bookDetail").attr("onclick", "getDetail(" + book.bookId + ")");
+
                 item.find(".bookButton").attr("onclick", "addToCart(" + book.bookId + ")");
 
                 if (!isExist(typeList, book.type))
@@ -309,3 +311,14 @@ function delOrder(id)
 }
 
 
+function getDetail(id)
+{
+    ajax("Book", "get",
+        {
+            action: "detail",
+            bookId: id
+        }, function (data)
+        {
+            alert(data);
+        })
+}

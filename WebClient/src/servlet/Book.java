@@ -63,6 +63,11 @@ public class Book extends HttpServlet
                     if (!bookAction.add(val(NAME), val(TYPE), val(PRICE)))
                         throw new StoreException("insert book failed");
                     break;
+
+                case "detail":
+                    int bookI = Integer.parseInt(val(BOOKID));
+                    writer.print(bookAction.detail(bookI));
+                    break;
                 default:
                     throw new StoreException("invalid action");
             }

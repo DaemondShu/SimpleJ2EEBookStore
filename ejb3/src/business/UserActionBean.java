@@ -1,6 +1,9 @@
 package business;
 
 import data.DataManager;
+import entity.User;
+import net.sf.json.JSONArray;
+import net.sf.json.JsonConfig;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -36,9 +39,9 @@ public class UserActionBean implements UserAction
                 //  session.put("username", username);
 
                 if (username.equals("admin"))
-                    return "admin"; //response.sendRedirect("manage.jsp?login=1021");
+                    return "admin";
                 else
-                    return "user";  //response.sendRedirect("shop.jsp?login=1021");
+                    return "user";
             }
         } catch (Exception e)
         {
@@ -54,21 +57,19 @@ public class UserActionBean implements UserAction
         {
             if (pwd1 != null && pwd2 != null)
             {
-                //DataManager dataManager = new DataManager(entityManager);
 
-                //AccessDB ADB = new AccessDB();
                 String truePassword = dataManager.user_querypwd(username);
                 if (pwd1.equals(truePassword))
                 {
                     dataManager.user_changepwd(username, pwd2);
-                    return true;  //response.sendRedirect("shop.jsp?login=1021");
+                    return true;
                 }
             }
         } catch (Exception e)
         {
             e.printStackTrace();
         }
-        return false;  //response.sendRedirect("login.jsp?login=pwdfail");
+        return false;
 
     }
 
@@ -79,11 +80,10 @@ public class UserActionBean implements UserAction
         {
             if (pwd1 != null && pwd2 != null)
             {
-                //DataManager dataManager = new DataManager(entityManager);
 
                 if (pwd1.equals(pwd2))
                 {
-                    //AccessDB ADB = new AccessDB();
+
                     return dataManager.user_insert(username, pwd1);
 
                 }
@@ -98,29 +98,19 @@ public class UserActionBean implements UserAction
     @Override
     public String table()
     {
-        String result = "";
+        String result = "[]";
         try
         {
             //DataManager dataManager = new DataManager(entityManager);
 
             //AccessDB ADB = new AccessDB();
-            List<Object[]> resultList = dataManager.user_queryall();
+            List<User> resultList = dataManager.user_queryall();
             if (resultList != null)
             {
-                // PrintWriter out=response.getWriter();
-                for (Object[] obj : resultList)
-                {
-                    result += "<tr>";
-                    for (int i = 0; i < 2; i++)
-                        result += "<td>" + obj[i].toString() + "</td>";
-                    if (Integer.parseInt(obj[0].toString()) != 1)
-                        result += "<td><a onclick=\"deluser(" + obj[0].toString() + ")\" href=\"#\"> <span class=\"glyphicon glyphicon-remove\"> </span> </a></td>";
-                    else
-                    {
-                        result += "<td></td>";
-                    }
-                    result += "</tr>";
-                }
+                JsonConfig exclude = new JsonConfig();
+                exclude.setExcludes(new String[]{"password"});
+                result = JSONArray.fromObject(resultList, exclude).toString();
+
             }
         } catch (Exception e)
         {
@@ -134,8 +124,6 @@ public class UserActionBean implements UserAction
     {
         try
         {
-            //DataManager dataManager = new DataManager(entityManager);
-            //AccessDB ADB = new AccessDB();
 
             if (userId >= 0)
             {

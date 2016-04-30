@@ -104,3 +104,4 @@ function chPwd()
             self.location.reload();
         });
 }
+

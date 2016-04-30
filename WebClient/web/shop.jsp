@@ -114,7 +114,7 @@
                     <td><a class="bookButton" onclick="addToCart()" href="#"> <span
                             class="glyphicon glyphicon-shopping-cart"> </span>
                     </a>
-                    <td>
+                    </td>
                 </tr>
 
                 </tbody>

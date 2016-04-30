@@ -1,6 +1,7 @@
 package data;
 
 import entity.Book;
+import entity.User;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -11,7 +12,6 @@ import java.util.*;
 
 /**
  * Created by monkey_d_asce on 16-3-26.
- * TODO MOVETO BUSSINESS
  */
 
 @Stateless(name = "DataManagerEJB")
@@ -131,14 +131,15 @@ public class DataManagerBean implements DataManager
         }
     }
 
-    public List<Object[]> user_queryall()
+    public List<User> user_queryall()
     {
         try
         {
             Query query = entityManager.createQuery("SELECT u FROM user u order by u.userId");
 
             //TODO
-            List<Object[]> result = query.getResultList();  //TODO
+            List<User> result = query.getResultList();
+
 
             return result;
         } catch (Exception e)
@@ -269,7 +270,7 @@ public class DataManagerBean implements DataManager
             return id;
         } catch (Exception e)
         {
-            e.printStackTrace();
+            //e.printStackTrace();
             return -1;
         }
     }
@@ -331,11 +332,9 @@ public class DataManagerBean implements DataManager
 
     public List order_query(int user_id)
     {
+        List result = new ArrayList();
         try
         {
-            List result = new ArrayList();
-
-
             String sql = user_id > -1 ? "Select orderId,name,price,time  FROM  bookstore.order natural join bookstore.book where userId= :userId order by time desc"
                     : "Select orderId,name,price,time  FROM  bookstore.order natural join bookstore.book";
 
@@ -352,7 +351,6 @@ public class DataManagerBean implements DataManager
 
             List<Object[]> tmp = query.getResultList();
 
-            int i = 0;
             for (Object[] item : tmp)
             {
                 Map map = new HashMap<String, Object>();
@@ -361,7 +359,6 @@ public class DataManagerBean implements DataManager
                 map.put("price", (float) item[2]);
                 map.put("time", item[3].toString());
                 result.add(map);
-                i++;
             }
 
             //List<Map> temp = result;
@@ -375,14 +372,29 @@ public class DataManagerBean implements DataManager
     }
 
 
-    public List<Object[]> total_userquery()
+    public List total_userquery()
     {
+        List result = new ArrayList();
         try
         {
+
             //String	sql="Select USER_ID,name,sum(price) total FROM user  natural left outer join ( SELECT USER_ID,price FROM bookstore.order natural join bookstore.book) aa group by USER_ID,name order by total desc ";
-            String sql = "Select USER_ID,name,sum(price) total FROM bookstore.user natural left outer join ( SELECT USER_ID,price FROM bookstore.order natural join bookstore.book) aa group by USER_ID,name order by total desc ";
+            String sql = "Select userId,name,sum(price) total FROM bookstore.user natural left outer join ( SELECT userId,price FROM bookstore.order natural join bookstore.book) aa group by userId,name order by total desc ";
             Query query = entityManager.createNativeQuery(sql);
-            List<Object[]> result = query.getResultList();
+
+
+            List<Object[]> tmp = query.getResultList();
+
+            for (Object[] item : tmp)
+            {
+                Map map = new HashMap<String, Object>();
+                if (item[2] == null || (Double) item[2] <= 0) continue;
+                map.put("userId", (int) item[0]);
+                map.put("name", (String) item[1]);
+                map.put("total", (Double) item[2]);
+                result.add(map);
+            }
+
             return result;
         } catch (Exception e)
         {

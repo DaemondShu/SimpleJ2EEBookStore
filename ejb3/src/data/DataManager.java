@@ -1,6 +1,7 @@
 package data;
 
 import entity.Book;
+import entity.User;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -24,7 +25,7 @@ public interface DataManager
 
     String user_queryname(int id);
 
-    List<Object[]> user_queryall();
+    List<User> user_queryall();
 
     boolean book_insert(String name, double price, String type);
 
@@ -46,9 +47,9 @@ public interface DataManager
 
     List order_query(int user_id);
 
-    List<Object[]> total_userquery();
+    List total_userquery();
 
-    List<Object[]> total_typequery();
+    List total_typequery();
 
-    List<Object[]> total_datequery();
+    List total_datequery();
 }

@@ -20,7 +20,7 @@ function emptyCallBack()
  */
 function defaultSuccess(json)
 {
-    msg("success : " + (typeof json == "string" ? json : JSON.stringify(json)));
+    msg("success!  " + (typeof json == "string" ? json : JSON.stringify(json)));
 }
 
 
@@ -30,7 +30,7 @@ function defaultSuccess(json)
  */
 function defaultError(error)
 {
-    msg("error:" + error.responseText);
+    msg("error " + error.responseText);
 }
 
 

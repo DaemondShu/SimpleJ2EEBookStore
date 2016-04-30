@@ -8,72 +8,21 @@
     <script src="bootstrap/dist/css/bootstrap-theme.min.css"></script>
     <script src="js/jquery-2.1.4.js"></script>
     <script src="bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="http://echarts.baidu.com/build/dist/echarts-all.js"></script>
+    <%--<script src="http://echarts.baidu.com/build/dist/echarts-all.js"></script>--%>
     <!-- <link href="luck_files/bootstrap.css" rel="stylesheet"> -->
     <link href="luck_files/datepicker.css" rel="stylesheet">
     <script src="luck_files/bootstrap-datepicker.js"></script>
+    <script src="js/helpFunction.js"></script>
 
-    <title>Insert title here</title>
-    <script>
+    <script src="js/manage.js"></script>
+    <script src="js/user.js"></script>
+    <script src="js/echarts-all.min.js"></script>
 
-    </script>
+    <title>Management page</title>
 
 
 </head>
 <body>
-<%--<%--%>
-<%--//session.setAttribute("username", "admin");--%>
-<%--Object tmp = session.getAttribute("username");--%>
-<%--if (tmp == null) response.sendRedirect("index.jsp=logfail");--%>
-<%--String user = tmp.toString();--%>
-<%--try--%>
-<%--{--%>
-<%--String logcheck = request.getParameter("login");--%>
-<%--if (logcheck == null || logcheck.equals(""))--%>
-<%--response.sendRedirect("index.jsp=logfail");--%>
-
-<%--int login = Integer.parseInt(logcheck);--%>
-<%--//int login=1021;--%>
-<%--if (user == null || user.equals("") || login != 1021)--%>
-<%--{--%>
-<%--response.sendRedirect("index.jsp=logfail");--%>
-<%--}--%>
-<%--} catch (Exception e)--%>
-<%--{--%>
-<%--response.sendRedirect("index.jsp=logfail");--%>
-<%--}--%>
-<%--%>--%>
-<%--<%--%>
-<%--//AccessDB.testS();--%>
-<%--//String type = request.getParameter("type");--%>
-<%--// 	AccessDB ADB = new AccessDB();--%>
-<%--// 	ResultSet rs = ADB.book_queryall(null);--%>
-<%--// 	ResultSet rs = null;--%>
-
-<%--// 	String booktable="";--%>
-<%--// 	String typelist="";--%>
-
-<%--// 	int i=0;--%>
-<%--// 	if (rs!=null)--%>
-<%--// 	{--%>
-<%--// 	    while (rs.next())--%>
-<%--// 	    {--%>
-<%--// 	    	String temptype=rs.getString("type");--%>
-<%--// 	    	int book_id=rs.getInt("BOOK_ID");--%>
-<%--// 			booktable+="<tr id=booktable"+book_id+">";--%>
-<%--// 			booktable+="<td>" + book_id + "</td>";--%>
-<%--// 			booktable+="<td>" + rs.getString("name") + "</td>";--%>
-<%--// 			booktable+="<td>" + temptype + "</td>";--%>
-<%--// 			booktable+="<td>$" + rs.getFloat("price") + "</td>";--%>
-<%--// 			booktable+="<td><a onclick=\"addToCart("+book_id+")\" href=\"#\"> <span class=\"glyphicon glyphicon-shopping-cart\"> </span> </a><td>";--%>
-<%--// 			booktable+="</tr>";--%>
-<%--// 			if (typelist.indexOf(temptype)==-1)--%>
-<%--// 				typelist+="<li><a href=\"#\" onclick=\"fliterTypes('"+temptype+"')\">"+temptype+"<span class=\"glyphicon glyphicon-chevron-right\"> </span> </a></li>";--%>
-<%--// 			i++;--%>
-<%--// 	    }--%>
-<%--// 	}--%>
-<%--%>--%>
-
 
 
 <nav class="navbar navbar-default" role="navigation"
@@ -118,73 +67,98 @@
                         class="glyphicon glyphicon-chevron-right"> </span> </a></li>
             </ul>
         </div>
+        <div class="col-md-10">
 
-        <table id="usertable" class="table table-hover" style="width:40%">
+            <table id="usertable" class="table table-hover" style="width:80%">
 
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>Remove</th>
-            </tr>
-            </thead>
-            <tbody id="usertablebody"></tbody>
-        </table>
-
-        <div id="booktable">
-            <table class="table table-hover" style="width:40%">
                 <thead>
                 <tr>
-                    <th>BOOK ID</th>
+                    <th>ID</th>
                     <th>NAME</th>
-                    <th>TYPE</th>
-                    <th>PRICE</th>
-                    <th>REMOVE</th>
+                    <th>Remove</th>
                 </tr>
                 </thead>
-                <tbody id="booktablebody"></tbody>
-            </table>
-            <button class="btn btn-primary btn-lg" data-toggle="modal"
-                    data-target="#myModal" style="margin: 0 auto;">ADD/MODIFY BOOK
-            </button>
-        </div>
-
-        <div id="userstat">
-            <table class="table table-hover" style="width:40%">
-                <caption><h3>买家排行榜</h3></caption>
-                <thead>
+                <tbody id="userTableBody">
                 <tr>
-                    <th>USER_ID</th>
-                    <th>NAME</th>
-                    <th>Total Consumptions</th>
+                    <td class="id">id</td>
+                    <td class="name">name</td>
+                    <td>
+                        <a class="remove" href="javascript:void(0);" onclick="delUser()">
+                            <span class="glyphicon glyphicon-remove"> </span>
+                        </a>
+                    </td>
                 </tr>
-                </thead>
-                <tbody id="userstatbody">
                 </tbody>
             </table>
-        </div>
 
-        <div id="typestat" style="height:500px">
-        </div>
-
-        <div class="well" id="datepicker">
-            <div class="input-daterange input-group" id="datepick" style="width:60%">
-                <span class="input-group-addon">From</span>
-                <input type="text" class="input-sm form-control" name="start" id="start" value="2015-01-01"
-                       data-date-format="yyyy-mm-dd"/>
-                <span class="input-group-addon">to</span>
-                <input type="text" class="input-sm form-control" name="end" id="end" value="2016-01-01"
-                       data-date-format="yyyy-mm-dd"/>
+            <div id="booktable">
+                <table class="table table-hover" style="width:80%">
+                    <thead>
+                    <tr>
+                        <th>BOOK ID</th>
+                        <th>NAME</th>
+                        <th>TYPE</th>
+                        <th>PRICE</th>
+                        <th>REMOVE</th>
+                    </tr>
+                    </thead>
+                    <tbody id="bookTableBody">
+                    <td class="bookId">000</td>
+                    <td class="bookName">载入中</td>
+                    <td class="bookType">type</td>
+                    <td class="bookPrice">100</td>
+                    <td>
+                        <a class="bookRemove" onclick="delBook" href="#">
+                            <span class="glyphicon glyphicon-remove"> </span>
+                        </a>
+                    </td>
+                    </tbody>
+                </table>
+                <button class="btn btn-primary " data-toggle="modal"
+                        data-target="#myModal" style="margin: 0 auto;">ADD/MODIFY BOOK
+                </button>
             </div>
-        </div>
 
-        <div id="datestat" style="height:400px;width:700px">
+            <div id="userstat">
+                <table class="table table-hover" style="width:80%">
+                    <caption><h3>买家排行榜</h3></caption>
+                    <thead>
+                    <tr>
+                        <th>USER_ID</th>
+                        <th>NAME</th>
+                        <th>Total Consumptions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="userStatBody">
+                    <td class="id">id</td>
+                    <td class="name">name</td>
+                    <td class="total">total</td>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="typestat" style="width: 700px; height: 500px">
+            </div>
+
+            <div class="well" id="datepicker">
+                <div class="input-daterange input-group" id="datepick" style="width:60%">
+                    <span class="input-group-addon">From</span>
+                    <input type="text" class="input-sm form-control" name="start" id="start" value="2015-01-01"
+                           data-date-format="yyyy-mm-dd"/>
+                    <span class="input-group-addon">to</span>
+                    <input type="text" class="input-sm form-control" name="end" id="end" value="2016-01-01"
+                           data-date-format="yyyy-mm-dd"/>
+                </div>
+            </div>
+
+            <div id="datestat" style="height:500px;width:700px">
+            </div>
         </div>
 
     </div>
 
 </div>
-<script> showusertable();</script>
+
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -192,36 +166,47 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"
                         aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">ADD A BOOK /MODIFY A EXISTED BOOK</h4>
+                <h3 class="modal-title" id="myModalLabel">ADD A BOOK /MODIFY A EXISTED BOOK</h3>
             </div>
             <div class="modal-body">
-                <div style="text-align: center; font-size: 20px">
-                    <!-- 						<input id="dowhat" TYPE=hidden NAME="dowhat" value="chpwd"></input> -->
+                <form id="bookForm" style="text-align: center; font-size: 20px">
                     Bookname:
-                    <input id="bookname" TYPE=TEXT class="form-control" NAME="bookname"
+                    <input type=TEXT class="form-control" name="name"
                            style="width: 40%; height: 35px; margin: 0 auto;">
                     Type:
-                    <input id="booktype" TYPE=text class="form-control" NAME="type"
+                    <input type=text class="form-control" name="type"
                            style="width: 40%; height: 35px; margin: 0 auto;">
                     Price:
-                    <input id="bookprice" TYPE=text class="form-control"
+                    <input type=text class="form-control" name="price"
                            NAME="price" style="width: 40%; height: 35px; margin: 0 auto;">
                     <BR>
-                    <button id="addbook" class="btn btn-primary" data-dismiss="modal" value="addbook"
-                            onclick="addbook()" style="margin: 0 auto; font-size: 17px;">Upload
-                    </button>
-                </div>
+                    <input type=button class="btn btn-primary" data-dismiss="modal" value="Submit"
+                           onclick="addBook()" style="margin: 0 auto; font-size: 17px;">Upload
+                    </input>
+                </form>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
+    $(document).ready(function ()
+    {
+        initTable();
+
+        showusertable();
+
+
+    });
+
+
     $('#start').datepicker()
-            .on('changeDate', function () {
+            .on('changeDate', function ()
+            {
                 updatedatestat();
             });
     $('#end').datepicker()
-            .on('changeDate', function () {
+            .on('changeDate', function ()
+            {
                 updatedatestat();
             });
 </script>

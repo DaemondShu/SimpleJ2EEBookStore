@@ -2,13 +2,42 @@
  * Created by monkey_d_asce on 16-4-30.
  */
 
+var singleUserHtml = undefined;
+var singleBookHtml = undefined;
+var singleUStatHtml = undefined;
+
+
 function updateusertable()
 {
 
-    ajax("User", "get", {},
+    ajax("User", "get",
+        {
+            action: "table"
+        },
         function (data)
         {
-            $("#usertablebody").html(data);
+            var userTableBody = $("#userTableBody");
+            if (singleUserHtml == undefined)
+            {
+                singleUserHtml = userTableBody.html();
+            }
+            userTableBody.html("");
+            var userArr = JSON.parse(data);
+            var len = userArr.length;
+            //skip admin
+            for (var i = 1; i < len; i++)
+            {
+                userTableBody.append(singleUserHtml);
+            }
+            for (var i = 1; i < len; i++)
+            {
+                var obj = userArr[i];
+                var tr = userTableBody.find("tr").eq(i - 1); //admin
+                tr.find(".id").html(obj.userId);
+                tr.find(".name").html(obj.name);
+                tr.find(".remove").attr("onclick", "delUser(" + obj.userId + ")")
+            }
+
         });
 
 }
@@ -16,30 +45,91 @@ function updateusertable()
 
 function updatebooktable()
 {
-    $.post("BookTable",
-        {},
-        function (data, status)
+    ajax("Book", "get",
         {
-            $("#booktablebody").html(data);
+            action: "table"
+        },
+        function (jsonStr)
+        {
+            //alert(jsonStr);
+            var bookTableBody = $("#bookTableBody");
+            if (singleBookHtml == undefined)
+                singleBookHtml = bookTableBody.html();
+            bookTableBody.html("");
+
+            var bookArray = JSON.parse(jsonStr);
+            var len = bookArray.length;
+
+
+            for (var i = 0; i < len; i++)
+                bookTableBody.append(singleBookHtml);
+            //bookTable = $("#booktable");
+            var typeList = [];
+
+            for (var i = 0; i < len; i++)
+            {
+                var item = bookTableBody.find("tr").eq(i);
+                var book = bookArray[i];
+                //item.attr("id", "book" + book.bookId);
+                item.find(".bookId").html(book.bookId);
+                item.find(".bookType").html(book.type);
+                item.find(".bookName").html(book.name);
+                item.find(".bookPrice").html(book.price);
+                item.find(".bookRemove").attr("onclick", "delBook(" + book.bookId + ")");
+
+            }
+
         });
 }
 function updateuserstat()
 {
-    $.post("StatByUser",
-        {},
-        function (data, status)
+
+    ajax("SaleStat", "get",
         {
-            $("#userstatbody").html(data);
+            action: "userStat"
+        },
+        function (data)
+        {
+            var userStatBody = $("#userStatBody");
+            if (singleUStatHtml == undefined)
+            {
+                singleUStatHtml = userStatBody.html();
+            }
+            userStatBody.html("");
+            var userArr = JSON.parse(data);
+
+            var len = userArr.length;
+            //skip admin
+            for (var i = 0; i < len; i++)
+            {
+                userStatBody.append(singleUStatHtml);
+            }
+            for (var i = 0; i < len; i++)
+            {
+                var obj = userArr[i];
+                var tr = userStatBody.find("tr").eq(i); //admin
+                tr.find(".id").html(obj.userId);
+                tr.find(".name").html(obj.name);
+                tr.find(".total").html(obj.total);
+            }
+
         });
+
+
 }
+
 
 function updatetypestat()
 {
-    $.post("StatByType",
-        {},
-        function (data, status)
+
+    ajax("SaleStat", "get",
+        {
+            action: "typeStat"
+
+        }, function (data)
         {
             arr = data.split(";");
+
             var j = 0;
             var xx = new Array();
             var xyy = new Array();
@@ -54,43 +144,65 @@ function updatetypestat()
                 };
             }
 
-
             var myChart = echarts.init(document.getElementById('typestat'));
             option = {
                 title: {
-                    text: '书籍各类目销售额对比',
+                    text: '各种类书本销售情况分布',
                     x: 'center'
                 },
                 tooltip: {
                     trigger: 'item',
-                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    formatter: "{a} <br/>{b}: {c} ({d}%)"
                 },
                 legend: {
                     orient: 'vertical',
                     x: 'left',
                     data: xx
                 },
-                calculable: true,
                 series: [
                     {
-                        name: '书籍类目',
+                        name: '访问来源',
                         type: 'pie',
-                        radius: '55%',
-                        center: ['30%', '60%'],
+                        radius: ['50%', '70%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            normal: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                show: true,
+                                textStyle: {
+                                    fontSize: '30',
+                                    fontWeight: 'bold'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
                         data: xyy
                     }
                 ]
             };
             myChart.setOption(option);
         });
+
+
+    //   });
 }
 
 function updatedatestat()
 {
-    $.post("StatByDate",
-        {},
-        function (data, status)
+    ajax("SaleStat", "get",
         {
+            action: "dateStat"
+        },
+        function (data)
+        {
+            //alert(data);
             arr = data.split(";");
             var j = 0;
             var xx = new Array();
@@ -112,39 +224,38 @@ function updatedatestat()
 
             option = {
                 title: {
-                    text: '销售记录折线图'
+                    text: '总销售记录曲线',
+                    subtext: '忽略销量为0的日子'
                 },
                 tooltip: {
                     trigger: 'axis'
                 },
                 legend: {
-                    data: ['日总销售额']
+                    data: ['日销售量']
                 },
-                calculable: true,
                 toolbox: {
                     show: true,
                     feature: {
-                        magicType: {show: true, type: ['line', 'bar']},
+                        dataZoom: {},
+                        dataView: {readOnly: true},
+                        magicType: {type: ['line', 'bar']},
+                        saveAsImage: {}
                     }
                 },
-                xAxis: [
-                    {
-                        type: 'category',
-                        boundaryGap: false,
-                        data: xx
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: xx
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value} °C'
                     }
-                ],
-                yAxis: [
-                    {
-                        type: 'value',
-                        axisLabel: {
-                            formatter: '{value} $'
-                        }
-                    }
-                ],
+                },
                 series: [
                     {
-                        name: '日总销售额',
+                        name: '日销售量',
                         type: 'line',
                         data: yy,
                         markPoint: {
@@ -164,6 +275,18 @@ function updatedatestat()
             myChart.setOption(option);
         })
 }
+
+function initTable()
+{
+    $("#usertable").hide();
+    $("#booktable").hide();
+    $("#userstat").hide();
+    $("#typestat").hide();
+    $("#datestat").hide();
+    $("#datepicker").hide();
+}
+
+
 
 function showusertable()
 {
@@ -204,7 +327,7 @@ function showtypestat()
     $("#usertable").hide();
     $("#booktable").hide();
     $("#userstat").hide();
-    $("#typestat").fadeIn("slow");
+    $("#typestat").show();
     $("#datestat").hide();
     $("#datepicker").hide();
 }
@@ -221,47 +344,45 @@ function showdatestat()
 
 }
 
-function deluser(id)
+
+function delBook(id)
 {
-    $.post("UserDel",
+    ajax("Book", "post",
         {
-            userid: id.toString()
+            action: "del",
+            bookId: id
         },
-        function (data, status)
+        function ()
         {
-            if (data != "ok") alert("delete failed");
-            else updateusertable();
+            msg("success!", 1);
+            updatebooktable();
         });
 }
 
-function delbook(id)
+function addBook()
 {
-    $.post("BookDel",
+    var bookForm = $("#bookForm");
+    var data = bookForm.serializeObject();
+    data.action = "add";
+
+    ajax("Book", "post", data,
+        function ()
         {
-            bookid: id.toString()
-        },
-        function (data, status)
-        {
-            if (data != "ok") alert("delete failed");
-            else updatebooktable();
+            msg("success!", 1);
+            updatebooktable();
         });
+
+
 }
 
-function addbook()
+function delUser(id)
 {
-    $.post("BookAdd",
+    ajax("User", "post",
         {
-            name: $("#bookname")[0].value,
-            type: $("#booktype")[0].value,
-            price: $("#bookprice")[0].value
-        },
-        function (data, status)
+            action: "del",
+            userId: id
+        }, function ()
         {
-            if (data != "ok") alert("Add failed");
-            else
-            {
-                updatebooktable();
-                //$("#myModal").fadeOut();
-            }
+            updateusertable();
         });
 }

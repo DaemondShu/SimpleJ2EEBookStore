@@ -1,7 +1,9 @@
 package servlet;
 
+import business.SaleStatAction;
 import exception.StoreException;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,12 +15,13 @@ import java.io.PrintWriter;
 /**
  * Created by monkey_d_asce on 16-4-24.
  */
-@WebServlet(name = "SaleStat")
+@WebServlet("/SaleStat")
 public class SaleStat extends HttpServlet
 {
     private static final String ACTION = "action";
     private static final int ERRORCODE = 520;
-
+    @EJB(name = "SaleStatAction")
+    SaleStatAction saleStatAction;
     private HttpServletRequest request;
 
     private String val(String key)
@@ -40,7 +43,15 @@ public class SaleStat extends HttpServlet
         {
             switch (val(ACTION))
             {
-
+                case "userStat":
+                    writer.print(saleStatAction.CountByUser());
+                    break;
+                case "typeStat":
+                    writer.print(saleStatAction.CountByType());
+                    break;
+                case "dateStat":
+                    writer.print(saleStatAction.CountByDate());
+                    break;
                 default:
                     throw new StoreException("invalid actions");
             }

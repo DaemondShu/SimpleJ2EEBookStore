@@ -20,28 +20,52 @@
     </welcome-file-list>
 
 
+    <!--<security-constraint>-->
+    <!--<web-resource-collection>-->
+    <!--<web-resource-name>simple web resource</web-resource-name>-->
+    <!--<url-pattern>/testServlet</url-pattern>-->
+    <!--</web-resource-collection>-->
+    <!--<auth-constraint>-->
+    <!--<role-name>admin</role-name>-->
+    <!--</auth-constraint>-->
+    <!--</security-constraint>-->
+
+
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>simple web resource</web-resource-name>
-            <url-pattern>/testServlet</url-pattern>
+            <url-pattern>/manage.jsp</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
         </auth-constraint>
-        <!--<user-data-constraint>-->
-        <!--<transport-guarantee>CONFIDENTIAL</transport-guarantee>-->
-        <!--</user-data-constraint>-->
     </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>simple web resource</web-resource-name>
+            <url-pattern>/shop.jsp</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>user</role-name>
+        </auth-constraint>
+    </security-constraint>
+
 
     <!--&lt;!&ndash; 定义角色 &ndash;&gt;-->
     <security-role>
-        <description>Authorized to access everything.</description>
+        <description>Authorized to manage.</description>
         <role-name>admin</role-name>
     </security-role>
 
     <security-role>
-        <description>Authorized to limited access.</description>
-        <role-name>User</role-name>
+        <description>Authorized to shopping.</description>
+        <role-name>user</role-name>
+    </security-role>
+
+    <security-role>
+        <description>Authorized to view normal books.</description>
+        <role-name>guest</role-name>
     </security-role>
 
 

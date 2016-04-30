@@ -1,8 +1,11 @@
 package business;
 
+import data.DataManager;
+import net.sf.json.JSONArray;
+
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import java.util.List;
 
 
 /**
@@ -11,9 +14,11 @@ import javax.persistence.PersistenceContext;
 @Stateless(name = "SaleStatActionEJB")
 public class SaleStatActionBean implements SaleStatAction
 {
-    @PersistenceContext(unitName = "JPADB")
-    private EntityManager entityManager;
-/*
+    @EJB(name = "DataManager")
+    DataManager dataManager;
+
+
+
     public SaleStatActionBean()
     {
     }
@@ -22,30 +27,13 @@ public class SaleStatActionBean implements SaleStatAction
     public String CountByUser()
     {
 
-        String result = "";
+        String result = "[]";
         try
         {
-            DataManager dataManager = new DataManager(entityManager);
+            // DataManager dataManager = new DataManager(entityManager);
             List<Object[]> rs = dataManager.total_userquery();
 
-            if (rs != null)
-            {
-                for (Object[] obj : rs)
-                {
-                    String id = obj[0].toString();
-                    if (Integer.parseInt(id) == 1) continue;
-                    result += "<tr>";
-                    result += "<td>" + id + "</td>";
-
-                    result += "<td>" + obj[1].toString() + "</td>";
-                    if (obj[2] == null || obj[2].toString().equals(""))
-                        result += "<td>" + 0 + "</td>";
-                    else
-                        result += "<td>" + obj[2].toString() + "</td>";
-
-                    result += "</tr>";
-                }
-            }
+            return JSONArray.fromObject(rs).toString();
 
         } catch (Exception e)
         {
@@ -60,7 +48,7 @@ public class SaleStatActionBean implements SaleStatAction
         String result = "";
         try
         {
-            DataManager dataManager = new DataManager(entityManager);
+            //DataManager dataManager = new DataManager(entityManager);
             List<Object[]> rs = dataManager.total_typequery();
 
             if (rs != null)
@@ -83,7 +71,7 @@ public class SaleStatActionBean implements SaleStatAction
         String result = "";
         try
         {
-            DataManager dataManager = new DataManager(entityManager);
+            //DataManager dataManager = new DataManager(entityManager);
             List<Object[]> rs = dataManager.total_datequery();
             if (rs != null)
             {
@@ -98,5 +86,5 @@ public class SaleStatActionBean implements SaleStatAction
             e.printStackTrace();
         }
         return result;
-    }*/
+    }
 }

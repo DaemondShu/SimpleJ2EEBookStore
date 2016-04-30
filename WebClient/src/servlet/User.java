@@ -2,10 +2,6 @@ package servlet;
 
 import business.UserAction;
 import exception.StoreException;
-import jdk.nashorn.internal.ir.Expression;
-import jdk.nashorn.internal.ir.RuntimeNode;
-import jdk.nashorn.internal.parser.JSONParser;
-import sun.awt.geom.AreaOp;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -28,7 +24,7 @@ public class User extends HttpServlet
     private static final String PASSWORD = "password";
     private static final String PWD1 = "pwd1";
     private static final String PWD2 = "pwd2";
-    private static final String USERID = "id";
+    private static final String USERID = "userId";
     private static final int ERRORCODE = 520;
 
     @EJB(name = "UserAction")
@@ -81,7 +77,7 @@ public class User extends HttpServlet
                     break;
 
                 case "table":
-                    response.getWriter().println(userAction.table());
+                    response.getWriter().print(userAction.table());
                     break;
 
                 case "logout":

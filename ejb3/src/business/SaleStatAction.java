@@ -7,11 +7,11 @@ import javax.ejb.Local;
  */
 @Local
 public interface SaleStatAction
-{/*
+{
     String CountByUser();
 
     String CountByType();
 
-    String CountByDate();*/
+    String CountByDate();
 
 }

@@ -41,12 +41,14 @@ function userLogin()
             switch (principal)
             {
                 case "admin":
-                    self.location = "manage.jsp";
+
                     setCookie("user", {name: formData.username, principal: principal}, "d1", "/");
+                    self.location = "manage.jsp";
                     break;
                 case "user":
-                    self.location = "shop.jsp";
+
                     setCookie("user", {name: formData.username, principal: principal}, "d1", "/");
+                    self.location = "shop.jsp";
                     break;
                 default:
                     msg("invalid username or password");
@@ -56,6 +58,23 @@ function userLogin()
         }, function ()
         {
             msg("invalid username or password");
+        });
+
+}
+
+function guest()
+{
+    var data =
+    {
+        action: "login",
+        username: "guest",
+        password: "guest"
+    };
+    ajax("User", "post", data,
+        function (principal)  // success
+        {
+            setCookie("user", {name: data.username, principal: principal}, "d1", "/");
+            self.location = "shop.jsp";
         });
 
 }

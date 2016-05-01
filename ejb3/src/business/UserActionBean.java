@@ -40,6 +40,8 @@ public class UserActionBean implements UserAction
 
                 if (username.equals("admin"))
                     return "admin";
+                else if (username.equals("guest"))
+                    return "guest";
                 else
                     return "user";
             }

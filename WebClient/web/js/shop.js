@@ -16,6 +16,11 @@ function checkUser()
 
     userObj = JSON.parse(jsonStr);
     $("#username").html(userObj.name);
+
+    if (userObj.principal == "guest")
+    {
+        $(".user_opt").hide();
+    }
 }
 
 function getUserName()
@@ -89,28 +94,36 @@ function initBookTable()
             //alert(jsonStr);
             var bookArray = JSON.parse(jsonStr);
             var len = bookArray.length;
-            for (var i = 0; i < len; i++)
-                bookTable.append(singleBookHtml);
+
             //bookTable = $("#booktable");
             var typeList = [];
 
+            var temp = (userObj.principal == "guest");
             for (var i = 0; i < len; i++)
             {
-                var item = bookTable.find("tr").eq(i);
                 var book = bookArray[i];
+
+                if (temp && book.type == "vip")
+                    continue;
+
+                bookTable.append(singleBookHtml);
+                var item = bookTable.find("tr").eq(i);
+
                 item.attr("id", "book" + book.bookId);
                 item.find(".bookId").html(book.bookId);
                 item.find(".bookType").html(book.type);
                 item.find(".bookName").html(book.name);
                 item.find(".bookPrice").html(book.price);
                 item.find(".bookDetail").attr("onclick", "getDetail(" + book.bookId + ")");
-
                 item.find(".bookButton").attr("onclick", "addToCart(" + book.bookId + ")");
 
                 if (!isExist(typeList, book.type))
                     typeList.push(book.type);
             }
-
+            if (temp)
+            {
+                $(".user_opt").hide();
+            }
             initTypeList(typeList);
 
         });

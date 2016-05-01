@@ -37,13 +37,13 @@
 
 
             <ul class="nav navbar-nav navbar-right">
-                <li>
+                <li class="user_opt">
                     <a href="chatRoom.html">
                         <span class="glyphicon glyphicon-comment"></span>
                         ChatRoom
                     </a>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown user_opt">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                        onclick="printCart()" aria-expanded="false">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
@@ -76,9 +76,9 @@
                         <nobr id="username">user</nobr>
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="javascript:void(0);" onclick="showOrder()"> my order</a>
+                        <li class="user_opt"><a href="javascript:void(0);" onclick="showOrder()"> my order</a>
                         <li><a href="javascript:void(0);" onclick="logout()">Log out</a></li>
-                        <li><a href="javascript:void(0);" data-toggle="modal" data-target="#myModal"
+                        <li class="user_opt"><a href="javascript:void(0);" data-toggle="modal" data-target="#myModal"
                                style="margin: 0 auto;">Modify Password</a></li>
                     </ul>
                 </li>
@@ -109,7 +109,7 @@
                         <th>TYPE</th>
                         <th>PRICE</th>
                         <th>DETAIL</th>
-                        <th>ADDTOCART</th>
+                        <th class="user_opt">ADDTOCART</th>
                     </tr>
                     </thead>
                     <tbody id="booktable">
@@ -119,7 +119,7 @@
                         <td class="bookName">载入中</td>
                         <td class="bookType">type</td>
                         <td class="bookPrice">100</td>
-                        <td>
+                        <td class="user_opt">
                             <a class="bookDetail" onclick="getDetail()" href="#"> <span
                                     class="glyphicon glyphicon-list-alt"> </span>
                             </a>
@@ -129,7 +129,6 @@
                         </a>
                         </td>
                     </tr>
-
                     </tbody>
                 </table>
             </div>

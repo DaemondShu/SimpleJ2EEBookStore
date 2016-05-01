@@ -15,7 +15,7 @@
 
     <title>Shop</title>
 </head>
-<body>
+<body onunload="disconnect()">
 
 
 <nav class="navbar navbar-default" role="navigation"
@@ -28,16 +28,16 @@
         <div>
             <div class="navbar-form navbar-left " role="search" style="padding: 0px 0px">
                 <div class="form-group ">
-                    <input id="searchcontent" type="text" class="form-control"
+                    <input id="chatText" type="text" class="form-control"
                            placeholder="chat here！" style="width:300px;">
                 </div>
-                <button onclick="sendMessage()" class="btn btn-default">Send Message</button>
+                <button onclick="chat()" class="btn btn-default">Send Message</button>
             </div>
 
 
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="chatRoom.html">
+                    <a href="shop.jsp">
                         <span class="glyphicon glyphicon-home"></span>
                         Back to Store
                     </a>
@@ -90,28 +90,31 @@
     <div class="row">
         <div class="col-md-2 sidebar"
              style="background-color: #F8F8F8; margin-bottom: 4; height: 1024px; ">
-            <ul class="nav nav-sidebar" style="margin-left: 10px" id="typeBar">
+            <ul class="nav nav-sidebar" style="margin-left: 10px" id="userBar">
                 <!--<li><h4>CATAGORIES</h4></li>-->
 
-                <li><a href="#">user1</a></li>
+                <li><a href="#">user</a></li>
 
             </ul>
         </div>
-        <div class="col-md-8" id="chatRoom">
+        <div class="col-md-8" id="chatArea">
 
-
-            <div class="leftd">
-                <div class="">
-                    <div class="speech left"> 样例语句</div>
+            <div class='leftd' hidden="hidden">
+                <div class="leftimg">
+                    user
+                </div>
+                <div class="speech left">
+                    消息
                 </div>
             </div>
 
 
-            <!--<div class="rightd">-->
-            <!--<div class="speech right"> yyy</div>-->
-            <!--</div>-->
-            <!---->
+
         </div>
+        <!--<div class="rightd">-->
+        <!--<div class="speech right"> yyy</div>-->
+        <!--</div>-->
+        <!---->
     </div>
 </div>
 

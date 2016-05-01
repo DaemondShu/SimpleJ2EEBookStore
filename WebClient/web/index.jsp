@@ -36,6 +36,10 @@
         <input type=BUTTON class="btn btn-default" value="Login" onclick="userLogin()"
                style="padding: 3px; margin: 10px 0; font-size: 17px;"/>
         <%--log in </input>--%>
+        &nbsp; &nbsp;
+        <input type=BUTTON class="btn btn-default" value="Guest" onclick="guest()"
+               style="padding: 3px; margin: 10px 0; font-size: 17px;"/>
+
     </div>
 </form>
 <BR>
@@ -65,6 +69,8 @@
                     <BR>
                     <input type=BUTTON class="btn btn-default" value="Sign Up" onclick="SignUp()"
                            style="padding: 3px; margin: 10px 0; font-size: 17px;"/>
+
+
                 </FORM>
             </div>
         </div>

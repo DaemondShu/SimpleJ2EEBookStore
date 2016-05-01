@@ -1,6 +1,5 @@
 package webSocket;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import javax.websocket.OnClose;
@@ -9,6 +8,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -21,7 +21,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class ChatEndPoint
 {
     //private static final AtomicInteger connectionIds = new AtomicInteger(0);
-    private static final Set<ChatEndPoint> connections = new CopyOnWriteArraySet<ChatEndPoint>();
+    private static final Set<ChatEndPoint> connections = new CopyOnWriteArraySet<>();
 
     private Session session;
     private String user;
@@ -31,13 +31,15 @@ public class ChatEndPoint
     {
         JSONObject response = new JSONObject();
         response.put("action", "users");
+        Set<String> temp = new HashSet<>();  //去重复
 
-        JSONArray tmp = new JSONArray();
         for (ChatEndPoint client : connections)
         {
-            tmp.add(client.user);
+            temp.add(client.user);
         }
-        response.put("users", tmp);
+
+
+        response.put("users", temp.toArray());
         return response.toString();
     }
 
@@ -50,8 +52,8 @@ public class ChatEndPoint
             {
                 synchronized (client)
                 {
-                    client.session.getBasicRemote().sendText(msg);
-
+                    if (client.session.isOpen())
+                        client.session.getBasicRemote().sendText(msg);
                 }
             } catch (IOException e)
             {
@@ -99,7 +101,8 @@ public class ChatEndPoint
                 case "chat":
                     JSONObject response = new JSONObject();
                     response.put("action", "chat");
-                    response.put("value", (String) json.get("value"));
+                    response.put("text", (String) json.get("value"));
+                    response.put("user", user);
                     broadcast(response.toString());
                     break;
             }
@@ -116,6 +119,7 @@ public class ChatEndPoint
     public void end()
     {
         connections.remove(this);
+        broadcast(getUsers());
     }
 
 

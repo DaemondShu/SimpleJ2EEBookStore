@@ -104,7 +104,7 @@ div.speech.left:after {
 
 .leftimg {
     float: left;
-    margin-top: 10px;
+    margin: 20px -40px;
 }
 
 .rightimg {

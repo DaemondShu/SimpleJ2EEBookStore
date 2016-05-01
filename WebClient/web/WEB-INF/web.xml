@@ -33,7 +33,7 @@
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>simple web resource</web-resource-name>
+            <web-resource-name>manage</web-resource-name>
             <url-pattern>/manage.jsp</url-pattern>
         </web-resource-collection>
         <auth-constraint>
@@ -41,15 +41,26 @@
         </auth-constraint>
     </security-constraint>
 
-    <!--<security-constraint>-->
-    <!--<web-resource-collection>-->
-    <!--<web-resource-name>simple web resource</web-resource-name>-->
-    <!--<url-pattern>/shop.jsp</url-pattern>-->
-    <!--</web-resource-collection>-->
-    <!--<auth-constraint>-->
-    <!--<role-name>user</role-name>-->
-    <!--</auth-constraint>-->
-    <!--</security-constraint>-->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>shop</web-resource-name>
+            <url-pattern>/shop.jsp</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>user</role-name>
+            <role-name>guest</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>shop</web-resource-name>
+            <url-pattern>/chatRoom.html</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>user</role-name>
+        </auth-constraint>
+    </security-constraint>
 
 
     <!--&lt;!&ndash; 定义角色 &ndash;&gt;-->

@@ -5,6 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <script src="bootstrap/dist/css/bootstrap-theme.min.css"></script>
     <script src="js/jquery-2.1.4.js"></script>
     <script src="bootstrap/dist/js/bootstrap.min.js"></script>
@@ -49,7 +50,7 @@
 </nav>
 
 <div class="container-fluid" style="margin-top: 0px">
-    <div class="row">
+    <div class="row-fluid">
         <div class="col-md-2 sidebar"
              style="background-color: #F8F8F8; margin-bottom: 4px; height: 800px">
             <ul class="nav nav-sidebar" style="margin-left: 10px">

@@ -3,6 +3,10 @@
         "-//JBoss//DTD Web Application 2.3V2//EN"
         "http://www.jboss.org/j2ee/dtd/jboss-web_3_2.dtd">
 <jboss-web>
+
+    <enable-websockets>true</enable-websockets>
     <security-domain>java:/jaas/UserLogin</security-domain>
     <!--<security-domain>java:/jaas/other</security-domain>-->
+
+
 </jboss-web>

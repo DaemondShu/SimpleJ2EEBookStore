@@ -1,9 +1,7 @@
 package security;
 
 import business.UserAction;
-import test.Hello;
 
-import javax.ejb.EJB;
 import javax.naming.InitialContext;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.*;

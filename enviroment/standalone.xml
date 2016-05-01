@@ -410,9 +410,10 @@
             <coordinator-environment default-timeout="300"/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:web:2.2" default-virtual-server="default-host" native="false">
-            <connector name="http" protocol="HTTP/1.1" scheme="http" socket-binding="http"/>
-            <connector name="https" protocol="HTTP/1.1" scheme="https" socket-binding="https" enable-lookups="false"
-                       redirect-port="8443" secure="true">
+            <connector name="http" protocol="org.apache.coyote.http11.Http11NioProtocol" scheme="http"
+                       socket-binding="http"/>
+            <connector name="https" protocol="org.apache.coyote.http11.Http11NioProtocol" scheme="https"
+                       socket-binding="https" enable-lookups="false" redirect-port="8443" secure="true">
                 <ssl name="jboss-ssl" key-alias="jboss" password="123456"
                      certificate-key-file="../standalone/configuration/server.keystore" protocol="TLSv1"/>
             </connector>

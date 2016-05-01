@@ -18,6 +18,10 @@ function checkUser()
     $("#username").html(userObj.name);
 }
 
+function getUserName()
+{
+    return userObj.name;
+}
 
 
 function filterTypes(str)

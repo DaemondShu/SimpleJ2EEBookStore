@@ -1,5 +1,8 @@
 package webSocket;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -23,6 +26,22 @@ public class ChatEndPoint
     private Session session;
     private String user;
 
+
+    private static String getUsers()
+    {
+        JSONObject response = new JSONObject();
+        response.put("action", "users");
+
+        JSONArray tmp = new JSONArray();
+        for (ChatEndPoint client : connections)
+        {
+            tmp.add(client.user);
+        }
+        response.put("users", tmp);
+        return response.toString();
+    }
+
+
     private static void broadcast(String msg)
     {
         for (ChatEndPoint client : connections)
@@ -32,19 +51,22 @@ public class ChatEndPoint
                 synchronized (client)
                 {
                     client.session.getBasicRemote().sendText(msg);
+
                 }
             } catch (IOException e)
             {
-                System.out.println("Chat Error: Failed to send message to client");
+                System.out.println(client.user + "quit");
                 connections.remove(client);
                 try
                 {
                     client.session.close();
                 } catch (IOException e1)
                 {
-                    // Ignore
+                    e.printStackTrace();
                 }
-                broadcast(msg);
+
+                broadcast(getUsers());
+                break;
             }
         }
     }
@@ -59,10 +81,35 @@ public class ChatEndPoint
     }
 
     @OnMessage
-    public String onMessage(String message)
+    public void onMessage(String message)
     {
-        System.out.println(message);
-        return "ok";
+        try
+        {
+
+
+            JSONObject json = JSONObject.fromObject(message);
+
+            switch ((String) json.get("action"))
+            {
+                case "setUser":
+                    user = (String) json.get("username");
+                    broadcast(getUsers());
+                    break;
+
+                case "chat":
+                    JSONObject response = new JSONObject();
+                    response.put("action", "chat");
+                    response.put("value", (String) json.get("value"));
+                    broadcast(response.toString());
+                    break;
+            }
+
+            //return "success";
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            //return "fail";
+        }
     }
 
     @OnClose
@@ -70,4 +117,6 @@ public class ChatEndPoint
     {
         connections.remove(this);
     }
+
+
 }

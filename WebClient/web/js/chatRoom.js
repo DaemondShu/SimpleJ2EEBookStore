@@ -11,25 +11,42 @@ function connect()
 
     websocket.onopen = function ()
     {
-        displayStatus('Open');
-        document.getElementById('sayHello').disabled = false;
-        displayMessage('Connection is now open. Type a name and click Say Hello to send a message.');
+        alert("onopen");
+
+
+        //setUser
+        sendMessage(
+            {
+                action: "setUser",
+                username: getUserName()
+            });
     };
     websocket.onmessage = function (event)
     {
+
+        var dataObj = JSON.parse(event.data);
+        switch (dataObj.action)
+        {
+            case "users":
+                updateUsers(dataObj.users);
+                break;
+            //case "":
+
+        }
         // log the event
-        displayMessage('The response was received! ' + event.data, 'success');
+        //displayMessage('The response was received! ' + event.data, 'success');
     };
     websocket.onerror = function (event)
     {
+        alert("onerror");
         // log the event
-        displayMessage('Error! ' + event.data, 'error');
+        //displayMessage('Error! ' + event.data, 'error');
     };
     websocket.onclose = function ()
     {
-        displayStatus('Closed');
-        displayMessage('The connection was closed or timed out. Please click the Open Connection button to reconnect.');
-        document.getElementById('sayHello').disabled = true;
+        alert("onclose");
+        //displayMessage('The connection was closed or timed out. Please click the Open Connection button to reconnect.');
+        // document.getElementById('sayHello').disabled = true;
     };
 }
 
@@ -43,22 +60,21 @@ function disconnect()
     // log the event
 }
 
-function sendMessage()
+function sendMessage(obj)
 {
-    if (websocket !== null)
+    if (websocket == null)
     {
-        var content = document.getElementById('name').value;
-        websocket.send(content);
-    } else
-    {
-        displayMessage('WebSocket connection is not established. Please click the Open Connection button.', 'error');
+        msg("cannot connect remote websocket.", 1);
+        return;
     }
+    websocket.send(JSON.stringify(obj));
 }
 
-function displayMessage(data, style)
+
+function updateUsers()
 {
-    var message = document.getElementById('hellomessage');
-    message.setAttribute("class", style);
-    message.value = data;
+
 }
+
+
 

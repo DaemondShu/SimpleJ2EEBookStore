@@ -119,12 +119,13 @@
                         <td class="bookName">载入中</td>
                         <td class="bookType">type</td>
                         <td class="bookPrice">100</td>
-                        <td class="user_opt">
+                        <td>
                             <a class="bookDetail" onclick="getDetail()" href="#"> <span
                                     class="glyphicon glyphicon-list-alt"> </span>
                             </a>
                         </td>
-                        <td><a class="bookButton" onclick="addToCart()" href="#"> <span
+                        <td class="user_opt">
+                            <a class="bookButton" onclick="addToCart()" href="#"> <span
                                 class="glyphicon glyphicon-shopping-cart"> </span>
                         </a>
                         </td>

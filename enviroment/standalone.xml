@@ -473,7 +473,7 @@
 
     <deployments>
         <deployment name="bookstore.war" runtime-name="bookstore.war">
-            <fs-exploded path="/home/monkey_d_asce/Documents/Web/J2EE_HW/WebModules/out/artifacts/bookstore.war"/>
+            <fs-exploded path="/bookstore.war"/>
         </deployment>
     </deployments>
 </server>

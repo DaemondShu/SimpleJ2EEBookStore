@@ -415,7 +415,7 @@
             <connector name="https" protocol="org.apache.coyote.http11.Http11NioProtocol" scheme="https"
                        socket-binding="https" enable-lookups="false" redirect-port="8443" secure="true">
                 <ssl name="jboss-ssl" key-alias="jboss" password="123456"
-                     certificate-key-file="../standalone/configuration/server.keystore" protocol="TLSv1"/>
+                     certificate-key-file="/jboss-eap-6.4/standalone/configuration/server.keystore" protocol="TLSv1"/>
             </connector>
             <virtual-server name="default-host" enable-welcome-root="true">
                 <alias name="localhost"/>
@@ -439,13 +439,13 @@
 
     <interfaces>
         <interface name="management">
-            <inet-address value="${jboss.bind.address.management:127.0.0.1}"/>
+            <inet-address value="0.0.0.0"/>
         </interface>
         <interface name="public">
-            <inet-address value="${jboss.bind.address:127.0.0.1}"/>
+            <inet-address value="0.0.0.0"/>
         </interface>
         <interface name="unsecure">
-            <inet-address value="${jboss.bind.address.unsecure:127.0.0.1}"/>
+            <inet-address value="0.0.0.0"/>
         </interface>
     </interfaces>
 

@@ -42,6 +42,7 @@ public class User extends HttpServlet
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+
         this.request = request;
         request.getSession(true);
         response.setCharacterEncoding("UTF-8");
@@ -63,7 +64,6 @@ public class User extends HttpServlet
                     System.out.println("principal: " + request.getUserPrincipal());
                     response.getWriter().print(request.getUserPrincipal());
                     request.getSession().setAttribute("username", val(USERNAME));
-
                     break;
 
                 case "register":

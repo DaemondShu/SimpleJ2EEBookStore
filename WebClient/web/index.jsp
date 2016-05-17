@@ -18,7 +18,7 @@
 <body style="text-align: center;">
 
 <BR><BR><BR>
-<h1 style="font-size: 30px; text-align: center;">Welcome To Monkey.D.Store</h1>
+<h1 style="font-size: 30px; text-align: center;" class="inter_welcome">Welcome To Monkey.D.Store</h1>
 <BR>
 <HR>
 <BR>
@@ -26,18 +26,21 @@
 
 <form id="loginForm">
     <div style="text-align: center; font-size: 20px">
-        Username: <BR>
+        <nobr class="inter_username">Username</nobr>
+        <BR>
         <input type=TEXT class="form-control" name="username"
-               style="width: 30%; height: 35px; margin: 0 auto;"/> <BR>
-        Password: <BR>
+               style="width: 30%; height: 35px; margin: 0 auto;"/>
+        <BR>
+        <nobr class="inter_password">Password</nobr>
+        <BR>
         <input type=PASSWORD class="form-control" name="password"
                style="width: 30%; height: 35px; margin: 0 auto;"/> <BR>
         <%--不能直接定义成button，button可能会被form自动转成submit--%>
-        <input type=BUTTON class="btn btn-default" value="Login" onclick="userLogin()"
+        <input type=BUTTON class="btn btn-default inter_login" value="Login" onclick="userLogin()"
                style="padding: 3px; margin: 10px 0; font-size: 17px;"/>
         <%--log in </input>--%>
         &nbsp; &nbsp;
-        <input type=BUTTON class="btn btn-default" value="Guest" onclick="guest()"
+        <input type=BUTTON class="btn btn-default inter_guest" value="Guest" onclick="guest()"
                style="padding: 3px; margin: 10px 0; font-size: 17px;"/>
 
     </div>
@@ -45,7 +48,9 @@
 <BR>
 
 
-<button class="btn btn-default" data-toggle="modal" data-target="#myModal" style="margin: 0 auto;">register</button>
+<button class="btn btn-default inter_register" data-toggle="modal" data-target="#myModal" style="margin: 0 auto;">
+    register
+</button>
 
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -53,21 +58,21 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Register</h4>
+                <h4 class="modal-title inter_register_user" id="myModalLabel">Register</h4>
             </div>
             <div class="modal-body">
                 <FORM id="SignUpForm" style="text-align: center; font-size: 20px">
-                    Username:
+                    <nobr class="inter_username">Username</nobr>
                     <input type=TEXT class="form-control" NAME="username"
                            style="width: 40%; height: 35px; margin: 0 auto;"/>
-                    Password:
+                    <nobr class="inter_password">Password</nobr>
                     <input type=PASSWORD class="form-control" NAME="pwd1"
                            style="width: 40%; height: 35px; margin: 0 auto;"/>
-                    Pwd_Confirm:
+                    <nobr class="inter_password2">Pwd_Confirm</nobr>
                     <input type=PASSWORD class="form-control" NAME="pwd2"
                            style="width: 40%; height: 35px; margin: 0 auto;"/>
                     <BR>
-                    <input type=BUTTON class="btn btn-default" value="Sign Up" onclick="SignUp()"
+                    <input type=BUTTON class="btn btn-default inter_sign_up" value="Sign Up" onclick="SignUp()"
                            style="padding: 3px; margin: 10px 0; font-size: 17px;"/>
 
 
@@ -79,10 +84,40 @@
 </div>
 <!-- /.modal -->
 
-
-<div id="reg_info" style="text-align: center; font-size: 20px">
-
-</div>
+<footer style=" position:absolute;
+    bottom: 0px; text-align: center; width: 100%;">
+    <a href="javascript: languageSwitch('cn')" style="font-size: 18px"> 中文 </a>
+    <a href="javascript: languageSwitch('en')" style="font-size: 18px"> English </a>
+</footer>
 
 </body>
+
+<script>
+    function languageSwitch(language)
+    {
+        ajax("Language", "get",
+                {
+                    language: language
+                }, function (jsonStr)
+                {
+                    dict = JSON.parse(jsonStr);
+                    for (var key in dict)
+                    {
+                        var div = $(".inter_" + key);
+                        //modify text or value
+                        if (div.val() == undefined || div.val().length == 0) //empty
+                            div.text(dict[key]);
+                        else div.val(dict[key]);
+                    }
+                })
+
+    }
+
+    $(document).ready(function ()
+    {
+        languageSwitch('en');
+    })
+</script>
+
+
 </html>

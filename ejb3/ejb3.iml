@@ -26,6 +26,15 @@
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/META-INF/persistence.xml" />
       </configuration>
     </facet>
+    <facet type="AspectJ" name="AspectJ">
+      <configuration>
+        <option name="aspectPath">
+          <projectLibrary>
+            <option name="name" value="aspectjrt-1.8.9" />
+          </projectLibrary>
+        </option>
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
@@ -41,5 +50,6 @@
     <orderEntry type="library" name="ejb-3.1" level="application" />
     <orderEntry type="library" name="ejb-3.1" level="application" />
     <orderEntry type="library" name="jedis-2.8.1" level="project" />
+    <orderEntry type="library" name="aspectjrt-1.8.9" level="project" />
   </component>
 </module>

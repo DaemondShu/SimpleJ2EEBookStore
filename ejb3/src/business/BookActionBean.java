@@ -1,5 +1,6 @@
 package business;
 
+import cache.CacheManager;
 import data.DataManager;
 import entity.Book;
 import net.sf.json.JSONArray;
@@ -15,8 +16,14 @@ import java.util.List;
 @Stateless(name = "BookEJB")
 public class BookActionBean implements BookAction
 {
+    static final String BOOK = "BOOK";
+    static final String TABLE = "TABLE";
+
     @EJB(name = "DataManager")
     DataManager dataManager;
+
+    @EJB(name = "CacheManager")
+    CacheManager cacheManager;
 
     public BookActionBean()
     {
@@ -25,16 +32,25 @@ public class BookActionBean implements BookAction
 
     public String table()
     {
+
+
         String result = "";
         try
         {
-            //DataManager dataManager = new DataManager(entityManager);
+            String temp = cacheManager.get(BOOK + "." + TABLE);
+            if (temp == null) //cahce miss
+            {
 
-            List<Book> rs = dataManager.book_queryall(null);
+                List<Book> rs = dataManager.book_queryall(null);
 
-            JsonConfig exclude = new JsonConfig();
-            //exclude.setExcludes(new String[] {"price"});
-            result = JSONArray.fromObject(rs, exclude).toString();
+                JsonConfig exclude = new JsonConfig();
+                //exclude.setExcludes(new String[] {"price"});
+                result = JSONArray.fromObject(rs, exclude).toString();
+
+                cacheManager.set(BOOK + "." + TABLE, result);
+            } else // cache hit
+                result = temp;
+
 
 
         } catch (Exception e)
@@ -54,12 +70,15 @@ public class BookActionBean implements BookAction
             //DataManager dataManager = new DataManager(entityManager);
             if (bookId >= 0)
             {
-                return dataManager.book_del(bookId);
+                if (dataManager.book_del(bookId))
+                {
+                    cacheManager.clear();  //管理员修改了书本信息，缓存内的数据已经过时，需要清空。
+                    return true;
+                }
             }
         } catch (Exception e)
         {
             e.printStackTrace();
-
         }
         return false;
     }
@@ -73,7 +92,10 @@ public class BookActionBean implements BookAction
             if (name != null && type != null && price != null)
             {
                 if (dataManager.book_insert(name, Float.parseFloat(price), type))
+                {
+                    cacheManager.clear(); //管理员修改了书本信息，缓存内的数据已经过时，需要清空。
                     return true;
+                }
             }
         } catch (Exception e)
         {
@@ -85,15 +107,24 @@ public class BookActionBean implements BookAction
     @Override
     public String detail(int bookId)
     {
+        String result = "";
         try
         {
-            return dataManager.bookDetail(bookId);
-            //DataManager dataManager = new DataManager(entityManager);
+            String temp = cacheManager.get(BOOK + "." + bookId);
+            if (temp == null) //cahce miss
+            {
+
+                result = dataManager.bookDetail(bookId);
+                cacheManager.set(BOOK + "." + bookId, result);
+            } else // cache hit
+                result = temp;
+
         } catch (Exception e)
         {
             e.printStackTrace();
-            return "nothing";
+            result = "nothing";
         }
+        return result;
     }
 
 

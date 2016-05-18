@@ -26,7 +26,6 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="untitled" target="1.5" />
       <module name="WebClient" target="1.7" />
     </bytecodeTargetLevel>
   </component>

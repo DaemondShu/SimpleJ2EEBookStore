@@ -181,8 +181,8 @@
                     <input type=text class="form-control" name="price"
                            NAME="price" style="width: 40%; height: 35px; margin: 0 auto;">
                     <BR>
-                    <input type=button class="btn btn-primary" data-dismiss="modal" value="Submit"
-                           onclick="addBook()" style="margin: 0 auto; font-size: 17px;">Upload
+                    <input type=button class="btn btn-primary" data-dismiss="modal" value="Upload"
+                           onclick="addBook()" style="margin: 0 auto; font-size: 17px;">
                     </input>
                 </form>
             </div>

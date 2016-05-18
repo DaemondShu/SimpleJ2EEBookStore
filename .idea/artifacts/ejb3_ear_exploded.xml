@@ -8,6 +8,7 @@
       </element>
       <element id="directory" name="lib">
         <element id="library" level="project" name="json-lib-2" />
+        <element id="library" level="project" name="jedis-2.8.1" />
       </element>
     </root>
   </artifact>

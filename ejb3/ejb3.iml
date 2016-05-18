@@ -40,5 +40,6 @@
     <orderEntry type="library" name="json-lib-2" level="project" />
     <orderEntry type="library" name="ejb-3.1" level="application" />
     <orderEntry type="library" name="ejb-3.1" level="application" />
+    <orderEntry type="library" name="jedis-2.8.1" level="project" />
   </component>
 </module>

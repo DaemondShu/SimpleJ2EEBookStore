@@ -33,21 +33,36 @@ public class CacheManagerBean implements CacheManager
 
     public void set(String key, String value)
     {
-        System.out.println("set:" + key);
-        jedis.set(key, value);
+        try
+        {
+            jedis.set(key, value);
+            System.out.println("set:" + key);
+        } catch (Exception e)
+        {
+            return;
+        }
+
     }
 
     public String get(String key)
     {
-        String temp = jedis.get(key);
-
-        if (temp == null || temp.isEmpty())
-            return null;
-        else
+        try
         {
-            System.out.println("get:" + key);
-            return temp;
+            String temp = jedis.get(key);
+
+            if (temp == null || temp.isEmpty())
+                return null;
+            else
+            {
+                System.out.println("get:" + key);
+                return temp;
+            }
+        } catch (Exception e)
+        {
+            return null;
         }
+
+
     }
 
     public void clear()

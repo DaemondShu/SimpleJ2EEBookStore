@@ -12,7 +12,7 @@
     <script src="js/helpFunction.js"></script>
     <script src="js/shop.js"></script>
     <script src="js/user.js"></script>
-
+    <script src="js/jquery.soap.js"></script>
 
     <title>Shop</title>
 </head>

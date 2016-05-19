@@ -13,6 +13,18 @@ import java.util.List;
 /**
  * Created by monkey_d_asce on 16-3-29.
  */
+
+
+/*
+本来是打算把ejb直接打包成webservice，因为ejb安全域和外部servlet安全域不是同一个，会出现securityDomain冲突替代的情况，不知道怎么统一，就不搞了。
+@WebService (
+        name = "BookAction",
+        targetNamespace = "business"
+      //  serviceName = "BookActionService"
+)
+@SOAPBinding(style = SOAPBinding.Style.RPC)
+*/
+
 @Stateless(name = "BookEJB")
 public class BookActionBean implements BookAction
 {
@@ -30,9 +42,11 @@ public class BookActionBean implements BookAction
 
     }
 
+
+    @Override
+    // @WebMethod(operationName = "table", action = "table")
     public String table()
     {
-
 
         String result = "";
         try
@@ -63,6 +77,8 @@ public class BookActionBean implements BookAction
         return result;
     }
 
+    // @WebMethod(exclude = true)
+    @Override
     public boolean del(int bookId)
     {
         try
@@ -83,6 +99,8 @@ public class BookActionBean implements BookAction
         return false;
     }
 
+    // @WebMethod(exclude = true)
+    @Override
     public boolean add(String name, String type, String price)
     {
         try
@@ -105,7 +123,8 @@ public class BookActionBean implements BookAction
     }
 
     @Override
-    public String detail(int bookId)
+    // @WebMethod(operationName = "detail" , action = "detail")
+    public String detail( /*@WebParam(name = "bookId") */int bookId)
     {
         String result = "";
         try

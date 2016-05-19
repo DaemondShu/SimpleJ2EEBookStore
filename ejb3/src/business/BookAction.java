@@ -2,6 +2,7 @@ package business;
 
 import javax.ejb.Local;
 
+
 /**
  * Created by monkey_d_asce on 16-3-31.
  */
@@ -9,6 +10,7 @@ import javax.ejb.Local;
 @Local
 public interface BookAction
 {
+
     String table();
 
     boolean del(int bookId);

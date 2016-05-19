@@ -18,7 +18,7 @@
     <script src="js/manage.js"></script>
     <script src="js/user.js"></script>
     <script src="js/echarts-all.min.js"></script>
-
+    <script src="js/jquery.soap.js"></script>
     <title>Management page</title>
 
 

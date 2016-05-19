@@ -80,53 +80,85 @@ function initTypeList(typeList)
 
 }
 
-function initBookTable()
+
+var singleBookHtml = undefined;
+
+
+function displayBook(jsonStr)
 {
+    //alert(jsonStr);
     var bookTable = $("#booktable");
-    var singleBookHtml = bookTable.html();
+    var bookArray = JSON.parse(jsonStr);
+    var len = bookArray.length;
+
+    //bookTable = $("#booktable");
+    var typeList = [];
+
+    var temp = (userObj.principal == "guest");
+    for (var i = 0; i < len; i++)
+    {
+        var book = bookArray[i];
+
+        if (temp && book.type == "vip")
+            continue;
+
+        bookTable.append(singleBookHtml);
+        var item = bookTable.find("tr").eq(i);
+
+        item.attr("id", "book" + book.bookId);
+        item.find(".bookId").html(book.bookId);
+        item.find(".bookType").html(book.type);
+        item.find(".bookName").html(book.name);
+        item.find(".bookPrice").html(book.price);
+        item.find(".bookDetail").attr("onclick", "getDetail(" + book.bookId + ")");
+        item.find(".bookButton").attr("onclick", "addToCart(" + book.bookId + ")");
+
+        if (!isExist(typeList, book.type))
+            typeList.push(book.type);
+    }
+    if (temp)
+    {
+        $(".user_opt").hide();
+    }
+    initTypeList(typeList);
+}
+
+
+function initBookTable(useWebService)
+{
+    useWebService = useWebService == undefined ? true : false;
+
+    var bookTable = $("#booktable");
+    if (singleBookHtml == undefined)
+        singleBookHtml = bookTable.html();
+
     bookTable.html("");
 
 
-    var data = {action: "table"};
-    ajax("Book", "get", data,
-        function (jsonStr)
-        {
-            //alert(jsonStr);
-            var bookArray = JSON.parse(jsonStr);
-            var len = bookArray.length;
-
-            //bookTable = $("#booktable");
-            var typeList = [];
-
-            var temp = (userObj.principal == "guest");
-            for (var i = 0; i < len; i++)
+    if (useWebService) //soap webservice
+    {
+        $.soap({
+            url: 'BookService',
+            soap12: false,
+            appendMethodToURL: false,
+            data: {}, //data 必须有，否则他就不发送了，没有参数就为空
+            method: 'table',
+            context: document.body,
+            success: function (wsResponse)
             {
-                var book = bookArray[i];
-
-                if (temp && book.type == "vip")
-                    continue;
-
-                bookTable.append(singleBookHtml);
-                var item = bookTable.find("tr").eq(i);
-
-                item.attr("id", "book" + book.bookId);
-                item.find(".bookId").html(book.bookId);
-                item.find(".bookType").html(book.type);
-                item.find(".bookName").html(book.name);
-                item.find(".bookPrice").html(book.price);
-                item.find(".bookDetail").attr("onclick", "getDetail(" + book.bookId + ")");
-                item.find(".bookButton").attr("onclick", "addToCart(" + book.bookId + ")");
-
-                if (!isExist(typeList, book.type))
-                    typeList.push(book.type);
-            }
-            if (temp)
-            {
-                $(".user_opt").hide();
-            }
-            initTypeList(typeList);
-
+                var dom = wsResponse.toXML();
+                var ss = $(dom).find("return");
+                displayBook(ss.text());
+            },
+            error: defaultError
         });
+    }
+    else  // servlet
+    {
+        var data = {action: "table"};
+        ajax("Book", "get", data, displayBook);
+    }
+
 }
 
 

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 /**
  * Created by monkey_d_asce on 16-5-18.
+ * aspectj的更新可能会有延迟，当修改aspectj修改的类，也就是就算服务器重启，因为编译器的缘故，aspectj可能没法马上侦测到更改。可以在build-> rebuild project来做到切面监测更新
  */
 public aspect AutoLog
 {

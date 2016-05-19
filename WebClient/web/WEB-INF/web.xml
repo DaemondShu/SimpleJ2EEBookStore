@@ -30,6 +30,7 @@
     <!--</auth-constraint>-->
     <!--</security-constraint>-->
 
+
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>SSL</web-resource-name>
@@ -108,7 +109,15 @@
     <!--<form-error-page>/auth_error.html</form-error-page>-->
     <!--</form-login-config>-->
     <!--</login-config>-->
-
+    <!--<?xml version="1.0" encoding="UTF-8"?>-->
+    <!--<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"-->
+    <!--xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">-->
+    <!--<soap:Body>-->
+    <!--<bus:detail xmlns:bus="business">-->
+    <!--<bus:bookId>5</bus:bookId>-->
+    <!--</bus:detail>-->
+    <!--</soap:Body>-->
+    <!--</soap:Envelope>-->
 </web-app>
 
 

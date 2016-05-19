@@ -7,11 +7,12 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="bootstrap/dist/css/bootstrap-theme.min.css"></script>
+    <%--<script src="bootstrap/dist/css/bootstrap-theme.min.css"></script>--%>
     <script src="js/jquery-2.1.4.js"></script>
     <script src="bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="js/helpFunction.js"></script>
     <script src="js/user.js"></script>
+    <script src="js/jquery.soap.js"></script>
 
 
 </head>
@@ -110,6 +111,7 @@
                         else div.val(dict[key]);
                     }
                 })
+
 
     }
 

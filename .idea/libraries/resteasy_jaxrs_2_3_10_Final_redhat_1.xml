@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="resteasy-jaxrs-2.3.10.Final-redhat-1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/resteasy-jaxrs-2.3.10.Final-redhat-1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

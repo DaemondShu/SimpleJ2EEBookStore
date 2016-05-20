@@ -48,12 +48,13 @@ public aspect AutoLog
         boolean isFirst = true;
         for (Object arg : joinPoint.getArgs())
         {
-            logStr += arg.toString();
             if (!isFirst)
             {
                 isFirst = false;
                 logStr += ',';
             }
+            logStr += arg.toString();
+
         }
         logStr += ')';
 

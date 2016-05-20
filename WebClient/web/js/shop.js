@@ -124,9 +124,9 @@ function displayBook(jsonStr)
 }
 
 
-function initBookTable(useWebService)
+function initBookTable(useSOAP)
 {
-    useWebService = useWebService == undefined ? true : false;
+    useSOAP = useSOAP == undefined ? true : false;
 
     var bookTable = $("#booktable");
     if (singleBookHtml == undefined)
@@ -135,10 +135,10 @@ function initBookTable(useWebService)
     bookTable.html("");
 
 
-    if (useWebService) //soap webservice
+    if (useSOAP) //soap webservice
     {
         $.soap({
-            url: 'BookService',
+            url: 'BookSOAP',
             soap12: false,
             appendMethodToURL: false,
             data: {}, //data 必须有，否则他就不发送了，没有参数就为空
@@ -360,14 +360,28 @@ function delOrder(id)
 }
 
 
-function getDetail(id)
+function getDetail(id, useREST /* =true */)
 {
-    ajax("Book", "get",
-        {
-            action: "detail",
-            bookId: id
-        }, function (data)
-        {
-            alert(data);
-        })
+    if (useREST == undefined)
+        useREST = true;
+    if (useREST) //access rest resource by ajax
+    {
+        ajax("BookREST/detail/" + id, "get",
+            {}, function (data)
+            {
+                alert(data);
+            })
+    }
+    else // access servlet
+    {
+        ajax("Book", "get",
+            {
+                action: "detail",
+                bookId: id
+            }, function (data)
+            {
+                alert(data);
+            })
+    }
+
 }

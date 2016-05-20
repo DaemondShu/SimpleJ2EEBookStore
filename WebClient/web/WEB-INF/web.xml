@@ -31,6 +31,23 @@
     <!--</security-constraint>-->
 
 
+    <!--<context-param>-->
+    <!--<param-name>resteasy.jndi.resources</param-name>-->
+    <!--<param-value>BookAction/local</param-value>-->
+    <!--</context-param>-->
+    <!--<listener>-->
+    <!--<listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>-->
+    <!--</listener>-->
+    <!--<servlet>-->
+    <!--<servlet-name>Resteasy</servlet-name>-->
+    <!--<servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>Resteasy</servlet-name>-->
+    <!--<url-pattern>/*</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>SSL</web-resource-name>

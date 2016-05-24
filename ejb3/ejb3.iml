@@ -51,5 +51,6 @@
     <orderEntry type="library" name="ejb-3.1" level="application" />
     <orderEntry type="library" name="jedis-2.8.1" level="project" />
     <orderEntry type="library" name="aspectjrt-1.8.9" level="project" />
+    <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
   </component>
 </module>

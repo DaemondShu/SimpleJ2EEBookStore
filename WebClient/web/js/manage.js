@@ -161,7 +161,7 @@ function updatetypestat()
                 },
                 series: [
                     {
-                        name: '访问来源',
+                        name: 'sales volume',
                         type: 'pie',
                         radius: ['50%', '70%'],
                         avoidLabelOverlap: false,
